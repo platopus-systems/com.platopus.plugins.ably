@@ -9,6 +9,7 @@
 
 #include <CoronaRuntime.h>
 #import <UIKit/UIKit.h>
+#import "Ably/Ably.h"
 
 // ----------------------------------------------------------------------------
 
