@@ -7,35 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8AB00DA42CFAA9A400696123 /* Ably.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB00DA32CFAA9A400696123 /* Ably.xcframework */; };
-		8AB00DA52CFAA9A400696123 /* Ably.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB00DA32CFAA9A400696123 /* Ably.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8AB00DA82CFAA9E300696123 /* AblyDeltaCodec.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB00DA62CFAA9E300696123 /* AblyDeltaCodec.xcframework */; };
-		8AB00DA92CFAA9E300696123 /* AblyDeltaCodec.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB00DA62CFAA9E300696123 /* AblyDeltaCodec.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8AB00DAA2CFAA9E300696123 /* msgpack.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB00DA72CFAA9E300696123 /* msgpack.xcframework */; };
-		8AB00DAB2CFAA9E300696123 /* msgpack.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB00DA72CFAA9E300696123 /* msgpack.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8AB00DB42CFAB2D400696123 /* libplugin_AblySolar.a in CopyFiles */ = {isa = PBXBuildFile; fileRef = A4E253B6166D6FB300DCDC2C /* libplugin_AblySolar.a */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		8AB00DCA2CFAB76300696123 /* Ably.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB00DA32CFAA9A400696123 /* Ably.xcframework */; };
+		8AB00DCB2CFAB76300696123 /* Ably.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB00DA32CFAA9A400696123 /* Ably.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8AB00DCC2CFAB76300696123 /* AblyDeltaCodec.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB00DA62CFAA9E300696123 /* AblyDeltaCodec.xcframework */; };
+		8AB00DCD2CFAB76300696123 /* AblyDeltaCodec.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB00DA62CFAA9E300696123 /* AblyDeltaCodec.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8AB00DCE2CFAB76300696123 /* msgpack.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB00DA72CFAA9E300696123 /* msgpack.xcframework */; };
+		8AB00DCF2CFAB76300696123 /* msgpack.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB00DA72CFAA9E300696123 /* msgpack.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A4E253C9166D716900DCDC2C /* AblySolar.mm in Sources */ = {isa = PBXBuildFile; fileRef = A447B617165D734C009EA762 /* AblySolar.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		8AA3FF852CF86770000CD556 /* Embed Frameworks */ = {
+		8AB00DD02CFAB76300696123 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 8;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8AB00DA52CFAA9A400696123 /* Ably.xcframework in Embed Frameworks */,
-				8AB00DAB2CFAA9E300696123 /* msgpack.xcframework in Embed Frameworks */,
-				8AB00DA92CFAA9E300696123 /* AblyDeltaCodec.xcframework in Embed Frameworks */,
+				8AB00DCB2CFAB76300696123 /* Ably.xcframework in Embed Frameworks */,
+				8AB00DCF2CFAB76300696123 /* msgpack.xcframework in Embed Frameworks */,
+				8AB00DCD2CFAB76300696123 /* AblyDeltaCodec.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 		A4E253B4166D6FB300DCDC2C /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/${PRODUCT_NAME}";
-			dstSubfolderSpec = 16;
+			buildActionMask = 12;
+			dstPath = /Users/yousaf/Solar2DPlugins/com.platopus/plugin.AblySolar/iphone;
+			dstSubfolderSpec = 0;
 			files = (
+				8AB00DB42CFAB2D400696123 /* libplugin_AblySolar.a in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,9 +58,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8AB00DA42CFAA9A400696123 /* Ably.xcframework in Frameworks */,
-				8AB00DAA2CFAA9E300696123 /* msgpack.xcframework in Frameworks */,
-				8AB00DA82CFAA9E300696123 /* AblyDeltaCodec.xcframework in Frameworks */,
+				8AB00DCA2CFAB76300696123 /* Ably.xcframework in Frameworks */,
+				8AB00DCE2CFAB76300696123 /* msgpack.xcframework in Frameworks */,
+				8AB00DCC2CFAB76300696123 /* AblyDeltaCodec.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,7 +123,7 @@
 				A4E253B2166D6FB300DCDC2C /* Sources */,
 				A4E253B3166D6FB300DCDC2C /* Frameworks */,
 				A4E253B4166D6FB300DCDC2C /* CopyFiles */,
-				8AA3FF852CF86770000CD556 /* Embed Frameworks */,
+				8AB00DD02CFAB76300696123 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -280,6 +282,9 @@
 					"$(inherited)",
 					"\"$(CORONA_ROOT)/Corona/ios/lib\"",
 					"\"$(PROJECT_DIR)/EmbeddedFrameworks\"/**",
+					"$(PROJECT_DIR)/Plugin/EmbeddedFrameworks/Ably.xcframework/ios-arm64_x86_64-simulator",
+					"$(PROJECT_DIR)/Plugin/EmbeddedFrameworks/AblyDeltaCodec.xcframework/ios-arm64_x86_64-simulator",
+					"$(PROJECT_DIR)/Plugin/EmbeddedFrameworks/msgpack.xcframework/ios-arm64_x86_64-simulator",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -302,6 +307,9 @@
 					"$(inherited)",
 					"\"$(CORONA_ROOT)/Corona/ios/lib\"",
 					"\"$(PROJECT_DIR)/EmbeddedFrameworks\"/**",
+					"$(PROJECT_DIR)/Plugin/EmbeddedFrameworks/Ably.xcframework/ios-arm64_x86_64-simulator",
+					"$(PROJECT_DIR)/Plugin/EmbeddedFrameworks/AblyDeltaCodec.xcframework/ios-arm64_x86_64-simulator",
+					"$(PROJECT_DIR)/Plugin/EmbeddedFrameworks/msgpack.xcframework/ios-arm64_x86_64-simulator",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;

@@ -70,11 +70,6 @@ AblySolar::Initialize( CoronaLuaRef listener )
 	if ( result )
 	{
 		fListener = listener;
-        
-        ARTRealtime *ably = [[ARTRealtime alloc] initWithKey:@"_EcqEA.XveGvA:QRDUDkPoqu3qR_npaZOXFX8rKvQofxBueXq3I8oOqFk"];
-        [ably.connection on:ARTRealtimeConnectionEventConnected callback:^(ARTConnectionStateChange *stateChange) {
-            NSLog(@"Connected to Ably!");
-        }];
 
 
 	}
@@ -149,6 +144,18 @@ int
 AblySolar::show( lua_State *L )
 {
 	NSString *message = @"Error: Could not display UIReferenceLibraryViewController. This feature requires iOS 5 or later.";
+    
+    
+    
+    ARTRealtime *client = [[ARTRealtime alloc] initWithKey:@"your-ably-api-key"];
+    [client.connection on:ARTRealtimeConnectionEventConnected callback:^(ARTConnectionStateChange *stateChange) {
+        NSLog(@"Connected to Ably!");
+    }];
+    ARTRealtimeChannel *channel = [client.channels get:@"test"];
+    [channel subscribe:^(ARTMessage *message) {
+        NSLog(@"%@", message.name);
+        NSLog(@"%@", message.data);
+    }];
 	
 	if ( [UIReferenceLibraryViewController class] )
 	{
