@@ -1,0 +1,76 @@
+---
+triple:          'x86_64-apple-darwin'
+binary-path:     '/Users/yousaf/Library/Caches/org.carthage.CarthageKit/DerivedData/16.1_16B40/msgpack-objective-C/0.4.0/Build/Products/Release-appletvsimulator/msgpack.framework/msgpack'
+relocations:
+  - { offset: 0x56C32, size: 0x8, addend: 0x0, symName: _msgpackVersionString, symObjAddr: 0x0, symBinAddr: 0x49E0, symSize: 0x0 }
+  - { offset: 0x56C66, size: 0x8, addend: 0x0, symName: _msgpackVersionNumber, symObjAddr: 0x28, symBinAddr: 0x4A08, symSize: 0x0 }
+  - { offset: 0x56CA2, size: 0x8, addend: 0x0, symName: '-[NSArray(NSArray_MessagePack) messagePack]', symObjAddr: 0x0, symBinAddr: 0x119C, symSize: 0x1C }
+  - { offset: 0x56CAF, size: 0x8, addend: 0x0, symName: '-[NSArray(NSArray_MessagePack) messagePack]', symObjAddr: 0x0, symBinAddr: 0x119C, symSize: 0x1C }
+  - { offset: 0x56D46, size: 0x8, addend: 0x0, symName: '-[NSData(NSData_MessagePack) messagePack]', symObjAddr: 0x0, symBinAddr: 0x11B8, symSize: 0x1C }
+  - { offset: 0x56D53, size: 0x8, addend: 0x0, symName: '-[NSData(NSData_MessagePack) messagePack]', symObjAddr: 0x0, symBinAddr: 0x11B8, symSize: 0x1C }
+  - { offset: 0x56D9A, size: 0x8, addend: 0x0, symName: '-[NSData(NSData_MessagePack) messagePackParse]', symObjAddr: 0x1C, symBinAddr: 0x11D4, symSize: 0x1C }
+  - { offset: 0x56E55, size: 0x8, addend: 0x0, symName: '+[MessagePackParser createUnpackedObject:]', symObjAddr: 0x0, symBinAddr: 0x11F0, symSize: 0x300 }
+  - { offset: 0x57097, size: 0x8, addend: 0x0, symName: '+[MessagePackParser createUnpackedObject:]', symObjAddr: 0x0, symBinAddr: 0x11F0, symSize: 0x300 }
+  - { offset: 0x574B3, size: 0x8, addend: 0x0, symName: '+[MessagePackParser parseData:]', symObjAddr: 0x300, symBinAddr: 0x14F0, symSize: 0xDD }
+  - { offset: 0x57625, size: 0x8, addend: 0x0, symName: '-[MessagePackParser unpacker]', symObjAddr: 0x3DD, symBinAddr: 0x15CD, symSize: 0xA }
+  - { offset: 0x5777D, size: 0x8, addend: 0x0, symName: '+[MessagePackPacker packNumber:into:]', symObjAddr: 0x0, symBinAddr: 0x15D8, symSize: 0x354 }
+  - { offset: 0x57C76, size: 0x8, addend: 0x0, symName: '+[MessagePackPacker packNumber:into:]', symObjAddr: 0x0, symBinAddr: 0x15D8, symSize: 0x354 }
+  - { offset: 0x580B9, size: 0x8, addend: 0x0, symName: _msgpack_pack_int16, symObjAddr: 0x354, symBinAddr: 0x192C, symSize: 0x89 }
+  - { offset: 0x583CC, size: 0x8, addend: 0x0, symName: '+[MessagePackPacker packObject:into:]', symObjAddr: 0x3DD, symBinAddr: 0x19B5, symSize: 0x662 }
+  - { offset: 0x58B78, size: 0x8, addend: 0x0, symName: '+[MessagePackPacker pack:]', symObjAddr: 0xA3F, symBinAddr: 0x2017, symSize: 0xC9 }
+  - { offset: 0x58D95, size: 0x8, addend: 0x0, symName: _msgpack_sbuffer_write, symObjAddr: 0xB08, symBinAddr: 0x20E0, symSize: 0x89 }
+  - { offset: 0x58F3B, size: 0x8, addend: 0x0, symName: '-[NSString(NSString_MessagePack) messagePack]', symObjAddr: 0x0, symBinAddr: 0x2169, symSize: 0x1C }
+  - { offset: 0x58F48, size: 0x8, addend: 0x0, symName: '-[NSString(NSString_MessagePack) messagePack]', symObjAddr: 0x0, symBinAddr: 0x2169, symSize: 0x1C }
+  - { offset: 0x58FDF, size: 0x8, addend: 0x0, symName: _msgpack_zone_malloc_expand, symObjAddr: 0x0, symBinAddr: 0x2185, symSize: 0x5D }
+  - { offset: 0x59115, size: 0x8, addend: 0x0, symName: _msgpack_zone_malloc_expand, symObjAddr: 0x0, symBinAddr: 0x2185, symSize: 0x5D }
+  - { offset: 0x591B0, size: 0x8, addend: 0x0, symName: _msgpack_zone_push_finalizer_expand, symObjAddr: 0x5D, symBinAddr: 0x21E2, symSize: 0x7C }
+  - { offset: 0x59267, size: 0x8, addend: 0x0, symName: _msgpack_zone_is_empty, symObjAddr: 0xD9, symBinAddr: 0x225E, symSize: 0x28 }
+  - { offset: 0x59320, size: 0x8, addend: 0x0, symName: _msgpack_zone_destroy, symObjAddr: 0x101, symBinAddr: 0x2286, symSize: 0x4E }
+  - { offset: 0x59463, size: 0x8, addend: 0x0, symName: _msgpack_zone_clear, symObjAddr: 0x14F, symBinAddr: 0x22D4, symSize: 0x7D }
+  - { offset: 0x5957F, size: 0x8, addend: 0x0, symName: _msgpack_zone_init, symObjAddr: 0x1CC, symBinAddr: 0x2351, symSize: 0x49 }
+  - { offset: 0x59610, size: 0x8, addend: 0x0, symName: _msgpack_zone_new, symObjAddr: 0x215, symBinAddr: 0x239A, symSize: 0x63 }
+  - { offset: 0x596D3, size: 0x8, addend: 0x0, symName: _msgpack_zone_free, symObjAddr: 0x278, symBinAddr: 0x23FD, symSize: 0x22 }
+  - { offset: 0x597A6, size: 0x8, addend: 0x0, symName: '-[NSDictionary(NSDictionary_MessagePack) messagePack]', symObjAddr: 0x0, symBinAddr: 0x241F, symSize: 0x1C }
+  - { offset: 0x597B3, size: 0x8, addend: 0x0, symName: '-[NSDictionary(NSDictionary_MessagePack) messagePack]', symObjAddr: 0x0, symBinAddr: 0x241F, symSize: 0x1C }
+  - { offset: 0x5984A, size: 0x8, addend: 0x0, symName: _msgpack_pack_object, symObjAddr: 0x0, symBinAddr: 0x243C, symSize: 0x4C4 }
+  - { offset: 0x59D9A, size: 0x8, addend: 0x0, symName: _msgpack_pack_object, symObjAddr: 0x0, symBinAddr: 0x243C, symSize: 0x4C4 }
+  - { offset: 0x5A1E2, size: 0x8, addend: 0x0, symName: _msgpack_object_print, symObjAddr: 0x4C4, symBinAddr: 0x2900, symSize: 0x2F8 }
+  - { offset: 0x5A39D, size: 0x8, addend: 0x0, symName: _msgpack_object_equal, symObjAddr: 0x7BC, symBinAddr: 0x2BF8, symSize: 0x1D0 }
+  - { offset: 0x5A6D7, size: 0x8, addend: 0x0, symName: _msgpack_version, symObjAddr: 0x0, symBinAddr: 0x2DC8, symSize: 0xD }
+  - { offset: 0x5A6F3, size: 0x8, addend: 0x0, symName: _msgpack_version, symObjAddr: 0x0, symBinAddr: 0x2DC8, symSize: 0xD }
+  - { offset: 0x5A70D, size: 0x8, addend: 0x0, symName: _msgpack_version_major, symObjAddr: 0xD, symBinAddr: 0x2DD5, symSize: 0x8 }
+  - { offset: 0x5A727, size: 0x8, addend: 0x0, symName: _msgpack_version_minor, symObjAddr: 0x15, symBinAddr: 0x2DDD, symSize: 0xB }
+  - { offset: 0x5A7E8, size: 0x8, addend: 0x0, symName: _msgpack_vrefbuffer_init, symObjAddr: 0x0, symBinAddr: 0x2DE8, symSize: 0x7A }
+  - { offset: 0x5A843, size: 0x8, addend: 0x0, symName: _msgpack_vrefbuffer_init, symObjAddr: 0x0, symBinAddr: 0x2DE8, symSize: 0x7A }
+  - { offset: 0x5A92D, size: 0x8, addend: 0x0, symName: _msgpack_vrefbuffer_destroy, symObjAddr: 0x7A, symBinAddr: 0x2E62, symSize: 0x2B }
+  - { offset: 0x5A99E, size: 0x8, addend: 0x0, symName: _msgpack_vrefbuffer_clear, symObjAddr: 0xA5, symBinAddr: 0x2E8D, symSize: 0x4D }
+  - { offset: 0x5AA13, size: 0x8, addend: 0x0, symName: _msgpack_vrefbuffer_append_ref, symObjAddr: 0xF2, symBinAddr: 0x2EDA, symSize: 0x63 }
+  - { offset: 0x5AACA, size: 0x8, addend: 0x0, symName: _msgpack_vrefbuffer_append_copy, symObjAddr: 0x155, symBinAddr: 0x2F3D, symSize: 0xC0 }
+  - { offset: 0x5AB86, size: 0x8, addend: 0x0, symName: _msgpack_vrefbuffer_migrate, symObjAddr: 0x215, symBinAddr: 0x2FFD, symSize: 0x13E }
+  - { offset: 0x5ADE7, size: 0x8, addend: 0x0, symName: '-[MessagePackParser(Streaming) init]', symObjAddr: 0x0, symBinAddr: 0x313B, symSize: 0x59 }
+  - { offset: 0x5AE7C, size: 0x8, addend: 0x0, symName: '-[MessagePackParser(Streaming) init]', symObjAddr: 0x0, symBinAddr: 0x313B, symSize: 0x59 }
+  - { offset: 0x5B0E5, size: 0x8, addend: 0x0, symName: '-[MessagePackParser(Streaming) feed:]', symObjAddr: 0x59, symBinAddr: 0x3194, symSize: 0xBB }
+  - { offset: 0x5B431, size: 0x8, addend: 0x0, symName: '-[MessagePackParser(Streaming) next]', symObjAddr: 0x114, symBinAddr: 0x324F, symSize: 0x8E }
+  - { offset: 0x5B667, size: 0x8, addend: 0x0, symName: '-[NSNull(NSNull_MessagePack) messagePack]', symObjAddr: 0x0, symBinAddr: 0x32DD, symSize: 0x1C }
+  - { offset: 0x5B674, size: 0x8, addend: 0x0, symName: '-[NSNull(NSNull_MessagePack) messagePack]', symObjAddr: 0x0, symBinAddr: 0x32DD, symSize: 0x1C }
+  - { offset: 0x5B70B, size: 0x8, addend: 0x0, symName: '-[NSNumber(NSNumber_MessagePack) messagePack]', symObjAddr: 0x0, symBinAddr: 0x32F9, symSize: 0x1C }
+  - { offset: 0x5B718, size: 0x8, addend: 0x0, symName: '-[NSNumber(NSNumber_MessagePack) messagePack]', symObjAddr: 0x0, symBinAddr: 0x32F9, symSize: 0x1C }
+  - { offset: 0x5B7AF, size: 0x8, addend: 0x0, symName: _msgpack_unpacker_init, symObjAddr: 0x0, symBinAddr: 0x3318, symSize: 0xC6 }
+  - { offset: 0x5BC81, size: 0x8, addend: 0x0, symName: _msgpack_unpacker_init, symObjAddr: 0x0, symBinAddr: 0x3318, symSize: 0xC6 }
+  - { offset: 0x5BDDB, size: 0x8, addend: 0x0, symName: _msgpack_unpacker_destroy, symObjAddr: 0xC6, symBinAddr: 0x33DE, symSize: 0x35 }
+  - { offset: 0x5BE58, size: 0x8, addend: 0x0, symName: _decl_count, symObjAddr: 0xFB, symBinAddr: 0x3413, symSize: 0x11 }
+  - { offset: 0x5BE83, size: 0x8, addend: 0x0, symName: _msgpack_unpacker_new, symObjAddr: 0x10C, symBinAddr: 0x3424, symSize: 0x3D }
+  - { offset: 0x5BEFD, size: 0x8, addend: 0x0, symName: _msgpack_unpacker_free, symObjAddr: 0x149, symBinAddr: 0x3461, symSize: 0x1C }
+  - { offset: 0x5BFB8, size: 0x8, addend: 0x0, symName: _msgpack_unpacker_expand_buffer, symObjAddr: 0x165, symBinAddr: 0x347D, symSize: 0x188 }
+  - { offset: 0x5C18D, size: 0x8, addend: 0x0, symName: _msgpack_unpacker_execute, symObjAddr: 0x2ED, symBinAddr: 0x3605, symSize: 0x34 }
+  - { offset: 0x5C1EA, size: 0x8, addend: 0x0, symName: _template_execute, symObjAddr: 0x321, symBinAddr: 0x3639, symSize: 0xEFF }
+  - { offset: 0x5CEEA, size: 0x8, addend: 0x0, symName: _template_execute.cold.1, symObjAddr: 0x1554, symBinAddr: 0x486C, symSize: 0x21 }
+  - { offset: 0x5CF1C, size: 0x8, addend: 0x0, symName: _msgpack_unpacker_data, symObjAddr: 0x1220, symBinAddr: 0x4538, symSize: 0x1C }
+  - { offset: 0x5CF58, size: 0x8, addend: 0x0, symName: _msgpack_unpacker_release_zone, symObjAddr: 0x123C, symBinAddr: 0x4554, symSize: 0x3E }
+  - { offset: 0x5CFD3, size: 0x8, addend: 0x0, symName: _msgpack_unpacker_flush_zone, symObjAddr: 0x127A, symBinAddr: 0x4592, symSize: 0x68 }
+  - { offset: 0x5D07E, size: 0x8, addend: 0x0, symName: _msgpack_unpacker_reset_zone, symObjAddr: 0x12E2, symBinAddr: 0x45FA, symSize: 0xE }
+  - { offset: 0x5D0C3, size: 0x8, addend: 0x0, symName: _msgpack_unpacker_reset, symObjAddr: 0x12F0, symBinAddr: 0x4608, symSize: 0x26 }
+  - { offset: 0x5D133, size: 0x8, addend: 0x0, symName: _msgpack_unpacker_next, symObjAddr: 0x1316, symBinAddr: 0x462E, symSize: 0x7E }
+  - { offset: 0x5D20A, size: 0x8, addend: 0x0, symName: _msgpack_unpack, symObjAddr: 0x1394, symBinAddr: 0x46AC, symSize: 0xBB }
+  - { offset: 0x5D339, size: 0x8, addend: 0x0, symName: _msgpack_unpack_next, symObjAddr: 0x144F, symBinAddr: 0x4767, symSize: 0x105 }
+...
