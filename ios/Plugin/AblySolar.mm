@@ -10,6 +10,7 @@ static ARTRealtime *gAblyClient = nil;
 // Function prototypes
 static void onConnectionStateChange(ARTConnectionStateChange *stateChange, lua_State *L, int listenerRef);
 static int initWithKey(lua_State *L);
+static int connectionClose(lua_State *L);
 static const char *ARTRealtimeConnectionStateToString(ARTRealtimeConnectionState state);
 
 // Helper function to convert ARTRealtimeConnectionState to string
@@ -60,37 +61,48 @@ static void onConnectionStateChange(ARTConnectionStateChange *stateChange, lua_S
 
 // initWithKey function implementation
 static int initWithKey(lua_State *L) {
-    // Get the 'key' parameter from Lua (at stack index 1)
     const char *apiKey = luaL_checkstring(L, 1);
 
-    // Get the listener function from Lua (at stack index 2)
-    luaL_checktype(L, 2, LUA_TFUNCTION); // Ensure the second argument is a function
-
-    // Store the Lua listener reference in the registry
+    luaL_checktype(L, 2, LUA_TFUNCTION);
     lua_pushvalue(L, 2);
     int listenerRef = luaL_ref(L, LUA_REGISTRYINDEX);
 
-    // Create the Ably client
-    ARTRealtime *client = [[ARTRealtime alloc] initWithKey:[NSString stringWithUTF8String:apiKey]];
+    ARTClientOptions *options = [[ARTClientOptions alloc] initWithKey:[NSString stringWithUTF8String:apiKey]];
+    options.autoConnect = YES; // Enable auto-connect
 
+    ARTRealtime *client = [[ARTRealtime alloc] initWithOptions:options];
     if (!client) {
         lua_pushnil(L);
         lua_pushstring(L, "Failed to initialize Ably client.");
-        return 2; // Return nil and an error message
+        return 2;
     }
 
-    gAblyClient = client; // Store globally to retain it
+    gAblyClient = client;
 
-    // Set the connection state change callback
     [client.connection on:^(ARTConnectionStateChange *stateChange) {
         if (stateChange) {
             onConnectionStateChange(stateChange, L, listenerRef);
         }
     }];
 
-    // Return the client reference to Lua (optional, for chaining further calls)
     lua_pushlightuserdata(L, (__bridge void *)client);
-    return 1; // Return the client object
+    return 1;
+}
+
+// connectionClose function implementation
+static int connectionClose(lua_State *L) {
+    if (gAblyClient) {
+        [gAblyClient.connection close];
+        [gAblyClient.connection on:ARTRealtimeConnectionEventClosed callback:^(ARTConnectionStateChange *stateChange) {
+            NSLog(@"Ably connection explicitly closed.");
+        }];
+        lua_pushboolean(L, 1); // Return true to Lua to indicate success
+        return 1;
+    } else {
+        lua_pushnil(L);
+        lua_pushstring(L, "Ably client is not initialized.");
+        return 2; // Return nil and an error message
+    }
 }
 
 // Lua plugin loader
@@ -102,5 +114,10 @@ CORONA_EXPORT int luaopen_plugin_AblySolar(lua_State *L) {
     lua_pushcfunction(L, initWithKey);
     lua_setfield(L, -2, "initWithKey");
 
+    // Register the connectionClose function
+    lua_pushcfunction(L, connectionClose);
+    lua_setfield(L, -2, "connectionClose");
+
     return 1; // Return the table to Lua
 }
+
