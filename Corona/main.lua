@@ -8,71 +8,62 @@ local function delegateListener(event)
 end
 Runtime:addEventListener("delegate", delegateListener)
 
-local apiKey = "your-ably-api-key"
+local apiKey = "your-ably-key"
+
+-----------
 
 local ably = require("plugin.AblySolar")
 
--- Connection states to handle the startup logic better
-local isConnected = false
-local isAppInitialized = false
+-- Registry to keep track of subscriptions
+local subscriptionRegistry = {}
 
--- Queue for publishing messages while waiting for the connection
-local messageQueue = {}
-
--- Helper function to publish a message
-local function publishMessage(channelName, eventName, messageData)
-    local channel = ably.getChannel(channelName)
-    if not isConnected then
-        print("Connection not ready. Queuing message:", eventName, messageData)
-        table.insert(messageQueue, {channel = channel, event = eventName, data = messageData})
-        return false
-    end
-
-    local success = ably.publish(channel, eventName, messageData)
-    if success then
-        print("Message published successfully:", eventName, messageData)
+-- Helper function to add a subscription to the registry
+local function addSubscription(channelName, eventName, listener)
+    subscriptionRegistry[channelName] = subscriptionRegistry[channelName] or {}
+    if eventName then
+        subscriptionRegistry[channelName][eventName] = listener
     else
-        print("Failed to publish message:", eventName, messageData)
+        subscriptionRegistry[channelName].all = listener
     end
-    return success
 end
 
--- Process the queued messages
-local function processMessageQueue()
-    if not isConnected then return end
-    for _, message in ipairs(messageQueue) do
-        ably.publish(message.channel, message.event, message.data)
+-- Helper function to restore subscriptions
+local function restoreSubscriptions()
+    for channelName, subscriptions in pairs(subscriptionRegistry) do
+        -- Get the channel again
+        local newChannel = ably.getChannel(channelName)
+        if not newChannel then
+            print("Failed to reacquire channel:", channelName)
+        else
+            -- Restore "all" subscription
+            if subscriptions.all then
+                ably.subscribeAll(newChannel, subscriptions.all)
+                print("Restored subscription to all messages for channel:", channelName)
+            end
+
+            -- Restore specific event subscriptions
+            for eventName, listener in pairs(subscriptions) do
+                if eventName ~= "all" then
+                    ably.subscribeEvent(newChannel, eventName, listener)
+                    print("Restored subscription to event:", eventName, "for channel:", channelName)
+                end
+            end
+        end
     end
-    print("Processed queued messages.")
-    messageQueue = {}
 end
 
 -- Initialize the Ably client
 local success = ably.initWithKey(apiKey, function(event)
     print("Connection state changed:", event.state)
 
-    -- Handle different connection states
-    if event.state == "Connecting" then
-        print("Connecting to Ably...")
-    elseif event.state == "Connected" then
-        isConnected = true
-        print("Ably connection established.")
-        processMessageQueue() -- Process any queued messages
-
+    if event.state == "Connected" then
         -- Publish a message upon successful connection
-        publishMessage("testChannel", "customEvent", "App successfully connected!")
-    elseif event.state == "Disconnected" then
-        isConnected = false
-        print("Ably connection temporarily disconnected.")
-    elseif event.state == "Suspended" then
-        isConnected = false
-        print("Ably connection suspended. Retrying...")
-    elseif event.state == "Failed" then
-        isConnected = false
-        print("Ably connection failed. Please check your API key or network connection.")
-    elseif event.state == "Closed" then
-        isConnected = false
-        print("Ably connection closed.")
+        local publishSuccess = ably.publish(ably.getChannel("testChannel"), "customEvent", "Reconnected!")
+        if publishSuccess then
+            print("Message published after reconnection!")
+        else
+            print("Failed to publish message after reconnection.")
+        end
     end
 end)
 
@@ -88,28 +79,35 @@ local channel = ably.getChannel(channelName)
 ably.subscribeAll(channel, function(event)
     print("Received message:", event.name, event.data)
 end)
+addSubscription(channelName, nil, function(event)
+    print("Received message:", event.name, event.data)
+end)
 
 -- Subscribe to a specific event on the channel
 ably.subscribeEvent(channel, "customEvent", function(event)
     print("Received event:", event.name, event.data)
 end)
+addSubscription(channelName, "customEvent", function(event)
+    print("Received event:", event.name, event.data)
+end)
 
--- Publish a message (will be queued if not connected)
-if channel then
-    local success = ably.publish(channel, "customEvent", "Hello, World!")
-    if success then
-        print("Message published successfully!")
-    else
-        print("Failed to publish message.")
-    end
+-- Publish a message
+local publishSuccess = ably.publish(channel, "customEvent", "Hello, World!")
+if publishSuccess then
+    print("Message published successfully!")
 else
-    print("Failed to get channel.")
+    print("Failed to publish message.")
 end
 
 ------------
 
 -- Function to close the Ably connection
 local function closeAblyConnection()
+    if not isAppInitialized then
+        print("App not initialized. Skipping connection close.")
+        return
+    end
+
     print("Closing Ably connection...")
     local success, errorMessage = pcall(function()
         ably.connectionClose()
@@ -121,14 +119,23 @@ end
 
 -- Function to reconnect Ably (if needed)
 local function reconnectAbly()
+    if not isAppInitialized then
+        print("App not initialized. Skipping reconnection.")
+        return
+    end
+
     print("Reconnecting Ably...")
+    
     local success, errorMessage = pcall(function()
+        -- Call the plugin's reconnection function
         ably.connectionReconnect()
     end)
+    
     if not success then
         print("Error reconnecting Ably:", errorMessage)
     else
         print("Reconnection successful!")
+        restoreSubscriptions() -- Restore subscriptions after reconnection
     end
 end
 
@@ -154,3 +161,4 @@ timer.performWithDelay(1000, function()
     isAppInitialized = true
     print("App initialization complete.")
 end)
+

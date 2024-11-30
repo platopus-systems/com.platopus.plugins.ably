@@ -88,6 +88,9 @@ static int initWithKey(lua_State *L) {
 static int connectionClose(lua_State *L) {
     if (gAblyClient) {
         [gAblyClient.connection close];
+        [gAblyClient.connection on:ARTRealtimeConnectionEventClosed callback:^(ARTConnectionStateChange *stateChange) {
+            NSLog(@"Ably connection explicitly closed.");
+        }];
         lua_pushboolean(L, 1); // Success
         return 1;
     } else {
@@ -101,6 +104,7 @@ static int connectionClose(lua_State *L) {
 static int connectionReconnect(lua_State *L) {
     if (gAblyClient) {
         [gAblyClient.connection connect];
+        NSLog(@"Ably connection reconnected.");
         lua_pushboolean(L, 1); // Success
         return 1;
     } else {
@@ -134,87 +138,107 @@ static int getChannel(lua_State *L) {
 // subscribeAll: Subscribe to all messages on a channel
 static int subscribeAll(lua_State *L) {
     ARTRealtimeChannel *channel = (__bridge ARTRealtimeChannel *)lua_touserdata(L, 1);
-    if (!channel) {
-        lua_pushnil(L);
-        lua_pushstring(L, "Invalid channel passed to subscribeAll.");
-        return 2;
+    NSString *channelName = channel.name;
+
+    ensureSubscriptionRegistry();
+
+    // Unsubscribe previous listener, if any
+    NSMutableDictionary *eventListeners = subscriptionRegistry[channelName];
+    if (eventListeners && eventListeners[@"all"]) {
+        [channel unsubscribe:eventListeners[@"all"]];
+        [eventListeners removeObjectForKey:@"all"];
     }
 
     luaL_checktype(L, 2, LUA_TFUNCTION);
     lua_pushvalue(L, 2);
     int listenerRef = luaL_ref(L, LUA_REGISTRYINDEX);
 
-    [channel subscribe:^(ARTMessage *message) {
-        lua_rawgeti(L, LUA_REGISTRYINDEX, listenerRef);
-        if (lua_isfunction(L, -1)) {
-            lua_newtable(L);
+    // Subscribe and store the listener
+    id listener = [channel subscribe:^(ARTMessage *message) {
+        if (message) {
+            lua_rawgeti(L, LUA_REGISTRYINDEX, listenerRef);
+            if (lua_isfunction(L, -1)) {
+                lua_newtable(L);
 
-            lua_pushstring(L, "name");
-            lua_pushstring(L, [message.name UTF8String]);
-            lua_settable(L, -3);
+                lua_pushstring(L, "name");
+                lua_pushstring(L, [message.name UTF8String]);
+                lua_settable(L, -3);
 
-            lua_pushstring(L, "data");
-            lua_pushstring(L, [[message.data description] UTF8String]);
-            lua_settable(L, -3);
+                lua_pushstring(L, "data");
+                lua_pushstring(L, [[message.data description] UTF8String]);
+                lua_settable(L, -3);
 
-            lua_pcall(L, 1, 0, 0);
-        } else {
-            lua_pop(L, 1);
+                lua_pcall(L, 1, 0, 0);
+            } else {
+                lua_pop(L, 1);
+            }
         }
     }];
 
-    lua_pushboolean(L, 1); // Success
+    // Store the listener in the registry
+    if (!eventListeners) {
+        eventListeners = [NSMutableDictionary new];
+        subscriptionRegistry[channelName] = eventListeners;
+    }
+    eventListeners[@"all"] = listener;
+
+    lua_pushboolean(L, 1);
     return 1;
 }
 
 // subscribeEvent: Subscribe to specific events on a channel
 static int subscribeEvent(lua_State *L) {
     ARTRealtimeChannel *channel = (__bridge ARTRealtimeChannel *)lua_touserdata(L, 1);
-    if (!channel) {
-        lua_pushnil(L);
-        lua_pushstring(L, "Invalid channel passed to subscribeEvent.");
-        return 2;
+    NSString *channelName = channel.name;
+    const char *eventName = luaL_checkstring(L, 2);
+
+    ensureSubscriptionRegistry();
+
+    NSString *eventNameStr = [NSString stringWithUTF8String:eventName];
+    NSMutableDictionary *eventListeners = subscriptionRegistry[channelName];
+    if (eventListeners && eventListeners[eventNameStr]) {
+        [channel unsubscribe:eventListeners[eventNameStr]];
+        [eventListeners removeObjectForKey:eventNameStr];
     }
 
-    const char *eventName = luaL_checkstring(L, 2);
     luaL_checktype(L, 3, LUA_TFUNCTION);
-
     lua_pushvalue(L, 3);
     int listenerRef = luaL_ref(L, LUA_REGISTRYINDEX);
 
-    NSString *event = [NSString stringWithUTF8String:eventName];
-    [channel subscribe:event callback:^(ARTMessage *message) {
-        lua_rawgeti(L, LUA_REGISTRYINDEX, listenerRef);
-        if (lua_isfunction(L, -1)) {
-            lua_newtable(L);
+    id listener = [channel subscribe:eventNameStr callback:^(ARTMessage *message) {
+        if (message) {
+            lua_rawgeti(L, LUA_REGISTRYINDEX, listenerRef);
+            if (lua_isfunction(L, -1)) {
+                lua_newtable(L);
 
-            lua_pushstring(L, "name");
-            lua_pushstring(L, [message.name UTF8String]);
-            lua_settable(L, -3);
+                lua_pushstring(L, "name");
+                lua_pushstring(L, [message.name UTF8String]);
+                lua_settable(L, -3);
 
-            lua_pushstring(L, "data");
-            lua_pushstring(L, [[message.data description] UTF8String]);
-            lua_settable(L, -3);
+                lua_pushstring(L, "data");
+                lua_pushstring(L, [[message.data description] UTF8String]);
+                lua_settable(L, -3);
 
-            lua_pcall(L, 1, 0, 0);
-        } else {
-            lua_pop(L, 1);
+                lua_pcall(L, 1, 0, 0);
+            } else {
+                lua_pop(L, 1);
+            }
         }
     }];
 
-    lua_pushboolean(L, 1); // Success
+    if (!eventListeners) {
+        eventListeners = [NSMutableDictionary new];
+        subscriptionRegistry[channelName] = eventListeners;
+    }
+    eventListeners[eventNameStr] = listener;
+
+    lua_pushboolean(L, 1);
     return 1;
 }
 
 // publish: Publish a message to a channel
 static int publish(lua_State *L) {
     ARTRealtimeChannel *channel = (__bridge ARTRealtimeChannel *)lua_touserdata(L, 1);
-    if (!channel) {
-        lua_pushnil(L);
-        lua_pushstring(L, "Invalid channel passed to publish.");
-        return 2;
-    }
-
     const char *eventName = luaL_checkstring(L, 2);
     const char *messageData = luaL_checkstring(L, 3);
 
@@ -259,4 +283,3 @@ CORONA_EXPORT int luaopen_plugin_AblySolar(lua_State *L) {
 
     return 1;
 }
-
