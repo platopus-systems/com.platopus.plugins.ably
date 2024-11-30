@@ -7,22 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8AB00D982CFAA28300696123 /* AblyDeltaCodec.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB00D952CFAA28300696123 /* AblyDeltaCodec.xcframework */; };
-		8AB00D992CFAA28300696123 /* Ably.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB00D942CFAA28300696123 /* Ably.xcframework */; };
-		8AB00D9A2CFAA28300696123 /* msgpack.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB00D962CFAA28300696123 /* msgpack.xcframework */; };
+		8AB00DA42CFAA9A400696123 /* Ably.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB00DA32CFAA9A400696123 /* Ably.xcframework */; };
+		8AB00DA52CFAA9A400696123 /* Ably.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB00DA32CFAA9A400696123 /* Ably.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8AB00DA82CFAA9E300696123 /* AblyDeltaCodec.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB00DA62CFAA9E300696123 /* AblyDeltaCodec.xcframework */; };
+		8AB00DA92CFAA9E300696123 /* AblyDeltaCodec.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB00DA62CFAA9E300696123 /* AblyDeltaCodec.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8AB00DAA2CFAA9E300696123 /* msgpack.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB00DA72CFAA9E300696123 /* msgpack.xcframework */; };
+		8AB00DAB2CFAA9E300696123 /* msgpack.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB00DA72CFAA9E300696123 /* msgpack.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A4E253C9166D716900DCDC2C /* AblySolar.mm in Sources */ = {isa = PBXBuildFile; fileRef = A447B617165D734C009EA762 /* AblySolar.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		8AA3FF852CF86770000CD556 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 8;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				8AB00DA52CFAA9A400696123 /* Ably.xcframework in Embed Frameworks */,
+				8AB00DAB2CFAA9E300696123 /* msgpack.xcframework in Embed Frameworks */,
+				8AB00DA92CFAA9E300696123 /* AblyDeltaCodec.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 		A4E253B4166D6FB300DCDC2C /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -36,9 +42,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		8AB00D942CFAA28300696123 /* Ably.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = Ably.xcframework; sourceTree = "<group>"; };
-		8AB00D952CFAA28300696123 /* AblyDeltaCodec.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = AblyDeltaCodec.xcframework; sourceTree = "<group>"; };
-		8AB00D962CFAA28300696123 /* msgpack.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = msgpack.xcframework; sourceTree = "<group>"; };
+		8AB00DA32CFAA9A400696123 /* Ably.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Ably.xcframework; path = Plugin/EmbeddedFrameworks/Ably.xcframework; sourceTree = "<group>"; };
+		8AB00DA62CFAA9E300696123 /* AblyDeltaCodec.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AblyDeltaCodec.xcframework; path = Plugin/EmbeddedFrameworks/AblyDeltaCodec.xcframework; sourceTree = "<group>"; };
+		8AB00DA72CFAA9E300696123 /* msgpack.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = msgpack.xcframework; path = Plugin/EmbeddedFrameworks/msgpack.xcframework; sourceTree = "<group>"; };
 		A447B616165D734C009EA762 /* AblySolar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AblySolar.h; path = Plugin/AblySolar.h; sourceTree = "<group>"; };
 		A447B617165D734C009EA762 /* AblySolar.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AblySolar.mm; path = Plugin/AblySolar.mm; sourceTree = "<group>"; };
 		A4E253B6166D6FB300DCDC2C /* libplugin_AblySolar.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libplugin_AblySolar.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -50,23 +56,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8AB00D982CFAA28300696123 /* AblyDeltaCodec.xcframework in Frameworks */,
-				8AB00D992CFAA28300696123 /* Ably.xcframework in Frameworks */,
-				8AB00D9A2CFAA28300696123 /* msgpack.xcframework in Frameworks */,
+				8AB00DA42CFAA9A400696123 /* Ably.xcframework in Frameworks */,
+				8AB00DAA2CFAA9E300696123 /* msgpack.xcframework in Frameworks */,
+				8AB00DA82CFAA9E300696123 /* AblyDeltaCodec.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8AB00D972CFAA28300696123 /* EmbeddedFrameworks 2 */ = {
+		8AB00DA22CFAA9A400696123 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8AB00D942CFAA28300696123 /* Ably.xcframework */,
-				8AB00D952CFAA28300696123 /* AblyDeltaCodec.xcframework */,
-				8AB00D962CFAA28300696123 /* msgpack.xcframework */,
+				8AB00DA62CFAA9E300696123 /* AblyDeltaCodec.xcframework */,
+				8AB00DA72CFAA9E300696123 /* msgpack.xcframework */,
+				8AB00DA32CFAA9A400696123 /* Ably.xcframework */,
 			);
-			path = "EmbeddedFrameworks 2";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		A447B609165D72A6009EA762 /* Source */ = {
@@ -83,8 +89,8 @@
 			children = (
 				A447B609165D72A6009EA762 /* Source */,
 				F54A40C01EE083A300AF417D /* CoronaNative */,
+				8AB00DA22CFAA9A400696123 /* Frameworks */,
 				A484111A15114F700074BD57 /* Products */,
-				8AB00D972CFAA28300696123 /* EmbeddedFrameworks 2 */,
 			);
 			sourceTree = "<group>";
 		};
