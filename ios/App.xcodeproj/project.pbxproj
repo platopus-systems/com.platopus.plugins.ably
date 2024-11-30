@@ -90,7 +90,7 @@
 		A447B6691666FD43009EA762 /* Corona3rdPartyLicenses.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Corona3rdPartyLicenses.txt; path = Corona/shared/resource/Corona3rdPartyLicenses.txt; sourceTree = "<group>"; };
 		A447B824166856F3009EA762 /* main.lua */ = {isa = PBXFileReference; lastKnownFileType = text; name = main.lua; path = ../Corona/main.lua; sourceTree = SOURCE_ROOT; };
 		A46885F318068C2900381941 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
-		A484111915114F700074BD57 /* App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = App.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A484111915114F700074BD57 /* AblySolar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AblySolar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A484111D15114F700074BD57 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A484111F15114F700074BD57 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A484112115114F700074BD57 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -191,7 +191,7 @@
 		A484111A15114F700074BD57 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A484111915114F700074BD57 /* App.app */,
+				A484111915114F700074BD57 /* AblySolar.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -283,9 +283,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A484111815114F700074BD57 /* App */ = {
+		A484111815114F700074BD57 /* AblySolar */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A484114215114F700074BD57 /* Build configuration list for PBXNativeTarget "App" */;
+			buildConfigurationList = A484114215114F700074BD57 /* Build configuration list for PBXNativeTarget "AblySolar" */;
 			buildPhases = (
 				C28A3B451EE9F8FD00F08609 /* Corona Native */,
 				A484111715114F700074BD57 /* Resources */,
@@ -301,9 +301,9 @@
 			dependencies = (
 				A4E253E4166DE7D800DCDC2C /* PBXTargetDependency */,
 			);
-			name = App;
+			name = AblySolar;
 			productName = App;
-			productReference = A484111915114F700074BD57 /* App.app */;
+			productReference = A484111915114F700074BD57 /* AblySolar.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -343,7 +343,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				A484111815114F700074BD57 /* App */,
+				A484111815114F700074BD57 /* AblySolar */,
 				DB3D9C082989D259002A3B7E /* Download Plugins */,
 			);
 		};
@@ -393,7 +393,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "PLIST_PATH=\"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"\necho \"Generating Info.plist at ${PLIST_PATH}\"\n\n# Create the directory if it doesn't exist\nmkdir -p \"$(dirname \"${PLIST_PATH}\")\"\n\n# Write a valid Info.plist\ncat <<EOL > \"${PLIST_PATH}\"\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n<plist version=\"1.0\">\n<dict>\n    <key>CFBundleIdentifier</key>\n    <string>\\$(PRODUCT_BUNDLE_IDENTIFIER)</string>\n    <key>CFBundleName</key>\n    <string>\\$(PRODUCT_NAME)</string>\n    <key>CFBundleVersion</key>\n    <string>1.0.0</string>\n    <key>UILaunchStoryboardName</key>\n    <string>LaunchScreen</string>\n</dict>\n</plist>\nEOL\n";
+			shellScript = "PLIST_PATH=\"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"\necho \"Generating Info.plist at ${PLIST_PATH}\"\n\n# Create the directory if it doesn't exist\nmkdir -p \"$(dirname \"${PLIST_PATH}\")\"\n\n# Write a valid Info.plist\ncat <<EOL > \"${PLIST_PATH}\"\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n<plist version=\"1.0\">\n<dict>\n    <key>CFBundleIdentifier</key>\n    <string>\\$(PRODUCT_BUNDLE_IDENTIFIER)</string>\n    <key>CFBundleExecutable</key>\n    <string>$(EXECUTABLE_NAME)</string>\n    <key>CFBundleName</key>\n    <string>\\$(PRODUCT_NAME)</string>\n    <key>CFBundleVersion</key>\n    <string>1.0.0</string>\n    <key>UILaunchStoryboardName</key>\n    <string>LaunchScreen</string>\n</dict>\n</plist>\nEOL\n";
 		};
 		A4841162151268030074BD57 /* Compile Corona Project */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -582,6 +582,7 @@
 			baseConfigurationReference = F55829801ED23E1200E5808C /* CoronaApp.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = V7J29L8Y68;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -598,14 +599,15 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				INFOPLIST_FILE = "App-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = AblySolar;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(LD_RUNPATH_SEARCH_PATHS_$(IS_MACCATALYST))",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mycompany.${PRODUCT_NAME:rfc1034identifier}";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.platopus.ablysolarApp;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.platopus.ablySolarApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SEPARATE_STRIP = YES;
 				STRIP_INSTALLED_PRODUCT = YES;
@@ -619,6 +621,7 @@
 			baseConfigurationReference = F55829801ED23E1200E5808C /* CoronaApp.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = V7J29L8Y68;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
@@ -636,14 +639,15 @@
 				GCC_PREFIX_HEADER = Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				INFOPLIST_FILE = "App-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = AblySolar;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(LD_RUNPATH_SEARCH_PATHS_$(IS_MACCATALYST))",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mycompany.${PRODUCT_NAME:rfc1034identifier}";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.platopus.ablysolarApp;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.platopus.ablySolarApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SEPARATE_STRIP = YES;
 				STRIP_INSTALLED_PRODUCT = YES;
@@ -685,7 +689,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A484114215114F700074BD57 /* Build configuration list for PBXNativeTarget "App" */ = {
+		A484114215114F700074BD57 /* Build configuration list for PBXNativeTarget "AblySolar" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A484114315114F700074BD57 /* Debug */,

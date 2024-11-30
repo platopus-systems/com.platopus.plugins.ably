@@ -14,7 +14,7 @@
 		8AB00DCD2CFAB76300696123 /* AblyDeltaCodec.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB00DA62CFAA9E300696123 /* AblyDeltaCodec.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8AB00DCE2CFAB76300696123 /* msgpack.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB00DA72CFAA9E300696123 /* msgpack.xcframework */; };
 		8AB00DCF2CFAB76300696123 /* msgpack.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB00DA72CFAA9E300696123 /* msgpack.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		A4E253C9166D716900DCDC2C /* AblySolar.mm in Sources */ = {isa = PBXBuildFile; fileRef = A447B617165D734C009EA762 /* AblySolar.mm */; };
+		A4E253C9166D716900DCDC2C /* AblySolar.mm in Sources */ = {isa = PBXBuildFile; fileRef = A447B617165D734C009EA762 /* AblySolar.mm */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
