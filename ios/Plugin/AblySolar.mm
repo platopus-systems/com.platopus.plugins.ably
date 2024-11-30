@@ -1,11 +1,11 @@
 //
-//  PluginLibrary.mm
+//  AblySolar.mm
 //  TemplateApp
 //
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2024 Ably / Yousaf Shah. All rights reserved.
 //
 
-#import "PluginLibrary.h"
+#import "AblySolar.h"
 
 #include <CoronaRuntime.h>
 #import <UIKit/UIKit.h>
@@ -13,17 +13,17 @@
 
 // ----------------------------------------------------------------------------
 
-class PluginLibrary
+class AblySolar
 {
 	public:
-		typedef PluginLibrary Self;
+		typedef AblySolar Self;
 
 	public:
 		static const char kName[];
 		static const char kEvent[];
 
 	protected:
-		PluginLibrary();
+		AblySolar();
 
 	public:
 		bool Initialize( CoronaLuaRef listener );
@@ -51,18 +51,18 @@ class PluginLibrary
 // ----------------------------------------------------------------------------
 
 // This corresponds to the name of the library, e.g. [Lua] require "plugin.library"
-const char PluginLibrary::kName[] = "plugin.library";
+const char AblySolar::kName[] = "plugin.AblySolar";
 
 // This corresponds to the event name, e.g. [Lua] event.name
-const char PluginLibrary::kEvent[] = "pluginlibraryevent";
+const char AblySolar::kEvent[] = "AblySolarEvent";
 
-PluginLibrary::PluginLibrary()
+AblySolar::AblySolar()
 :	fListener( NULL )
 {
 }
 
 bool
-PluginLibrary::Initialize( CoronaLuaRef listener )
+AblySolar::Initialize( CoronaLuaRef listener )
 {
 	// Can only initialize listener once
 	bool result = ( NULL == fListener );
@@ -70,13 +70,20 @@ PluginLibrary::Initialize( CoronaLuaRef listener )
 	if ( result )
 	{
 		fListener = listener;
+        
+        ARTRealtime *ably = [[ARTRealtime alloc] initWithKey:@"_EcqEA.XveGvA:QRDUDkPoqu3qR_npaZOXFX8rKvQofxBueXq3I8oOqFk"];
+        [ably.connection on:ARTRealtimeConnectionEventConnected callback:^(ARTConnectionStateChange *stateChange) {
+            NSLog(@"Connected to Ably!");
+        }];
+
+
 	}
 
 	return result;
 }
 
 int
-PluginLibrary::Open( lua_State *L )
+AblySolar::Open( lua_State *L )
 {
 	// Register __gc callback
 	const char kMetatableName[] = __FILE__; // Globally unique string to prevent collision
@@ -101,7 +108,7 @@ PluginLibrary::Open( lua_State *L )
 }
 
 int
-PluginLibrary::Finalizer( lua_State *L )
+AblySolar::Finalizer( lua_State *L )
 {
 	Self *library = (Self *)CoronaLuaToUserdata( L, 1 );
 
@@ -112,8 +119,8 @@ PluginLibrary::Finalizer( lua_State *L )
 	return 0;
 }
 
-PluginLibrary *
-PluginLibrary::ToLibrary( lua_State *L )
+AblySolar *
+AblySolar::ToLibrary( lua_State *L )
 {
 	// library is pushed as part of the closure
 	Self *library = (Self *)CoronaLuaToUserdata( L, lua_upvalueindex( 1 ) );
@@ -122,7 +129,7 @@ PluginLibrary::ToLibrary( lua_State *L )
 
 // [Lua] library.init( listener )
 int
-PluginLibrary::init( lua_State *L )
+AblySolar::init( lua_State *L )
 {
 	int listenerIndex = 1;
 
@@ -139,7 +146,7 @@ PluginLibrary::init( lua_State *L )
 
 // [Lua] library.show( word )
 int
-PluginLibrary::show( lua_State *L )
+AblySolar::show( lua_State *L )
 {
 	NSString *message = @"Error: Could not display UIReferenceLibraryViewController. This feature requires iOS 5 or later.";
 	
@@ -177,7 +184,7 @@ PluginLibrary::show( lua_State *L )
 
 // ----------------------------------------------------------------------------
 
-CORONA_EXPORT int luaopen_plugin_library( lua_State *L )
+CORONA_EXPORT int luaopen_plugin_AblySolar( lua_State *L )
 {
-	return PluginLibrary::Open( L );
+	return AblySolar::Open( L );
 }

@@ -1,4 +1,4 @@
-local library = require "plugin.library"
+local library = require "plugin.AblySolar"
 
 -- This event is dispatched to the global Runtime object
 -- by `didLoadMain:` in MyCoronaDelegate.mm
