@@ -17,15 +17,6 @@ local ably = require("plugin.AblySolar")
 -- Registry to keep track of subscriptions
 local subscriptionRegistry = {}
 
--- Initialize the Ably client
-local success = ably.initWithKey(apiKey, function(event)
-    print("Connection state changed:", event.state)
-end)
-
-if not success then
-    print("Failed to initialize Ably client")
-end
-
 -- Helper function to add a subscription to the registry
 local function addSubscription(channelName, eventName, listener)
     subscriptionRegistry[channelName] = subscriptionRegistry[channelName] or {}
@@ -61,6 +52,25 @@ local function restoreSubscriptions()
     end
 end
 
+-- Initialize the Ably client
+local success = ably.initWithKey(apiKey, function(event)
+    print("Connection state changed:", event.state)
+
+    if event.state == "Connected" then
+        -- Publish a message upon successful connection
+        local publishSuccess = ably.publish(ably.getChannel("testChannel"), "customEvent", "Reconnected!")
+        if publishSuccess then
+            print("Message published after reconnection!")
+        else
+            print("Failed to publish message after reconnection.")
+        end
+    end
+end)
+
+if not success then
+    print("Failed to initialize Ably client")
+end
+
 -- Get a channel
 local channelName = "testChannel"
 local channel = ably.getChannel(channelName)
@@ -80,6 +90,14 @@ end)
 addSubscription(channelName, "customEvent", function(event)
     print("Received event:", event.name, event.data)
 end)
+
+-- Publish a message
+local publishSuccess = ably.publish(channel, "customEvent", "Hello, World!")
+if publishSuccess then
+    print("Message published successfully!")
+else
+    print("Failed to publish message.")
+end
 
 ------------
 
