@@ -1,0 +1,29 @@
+settings =
+{
+    orientation =
+    {
+        default = "portrait",
+        supported = { "portrait", "portraitUpsideDown" }
+    },
+
+    iphone =
+    {
+        xcassets = "Images.xcassets",
+        plist =
+        {
+            UILaunchStoryboardName = "LaunchScreen",
+            CFBundleIdentifier = "com.platopus.ablySolarApp",
+            CFBundleName = "AblySolar",
+            CFBundleVersion = "1.0.0",
+            CFBundleShortVersionString = "1.0",
+        },
+    },
+
+    plugins =
+    {
+        ["plugin.AblySolar"] =
+        {
+            publisherId = "com.platopus.plugin",
+        },
+    },
+}

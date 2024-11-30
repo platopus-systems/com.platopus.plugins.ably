@@ -4,62 +4,45 @@
 #import <CoronaLua.h>
 #import <CoronaMacros.h>
 
-// Keep a global reference to the Ably client to avoid it being deallocated
+// Global reference to the Ably client
 static ARTRealtime *gAblyClient = nil;
-
-// Function prototypes
-static void onConnectionStateChange(ARTConnectionStateChange *stateChange, lua_State *L, int listenerRef);
-static int initWithKey(lua_State *L);
-static int connectionClose(lua_State *L);
-static const char *ARTRealtimeConnectionStateToString(ARTRealtimeConnectionState state);
 
 // Helper function to convert ARTRealtimeConnectionState to string
 static const char *ARTRealtimeConnectionStateToString(ARTRealtimeConnectionState state) {
     switch (state) {
-        case ARTRealtimeConnecting:
-            return "Connecting";
-        case ARTRealtimeConnected:
-            return "Connected";
-        case ARTRealtimeDisconnected:
-            return "Disconnected";
-        case ARTRealtimeSuspended:
-            return "Suspended";
-        case ARTRealtimeClosed:
-            return "Closed";
-        case ARTRealtimeFailed:
-            return "Failed";
-        default:
-            return "Unknown";
+        case ARTRealtimeConnecting: return "Connecting";
+        case ARTRealtimeConnected: return "Connected";
+        case ARTRealtimeDisconnected: return "Disconnected";
+        case ARTRealtimeSuspended: return "Suspended";
+        case ARTRealtimeClosed: return "Closed";
+        case ARTRealtimeFailed: return "Failed";
+        default: return "Unknown";
     }
 }
 
-// Listener function that will be triggered on connection state changes
+// Listener for connection state changes
 static void onConnectionStateChange(ARTConnectionStateChange *stateChange, lua_State *L, int listenerRef) {
     lua_rawgeti(L, LUA_REGISTRYINDEX, listenerRef); // Push the listener callback onto the stack
-
     if (lua_isfunction(L, -1)) {
-        // Create a Lua table to pass the state and reason
-        lua_newtable(L);
+        lua_newtable(L); // Create a Lua table
 
-        // Add "state" to the table
         lua_pushstring(L, "state");
-        lua_pushstring(L, ARTRealtimeConnectionStateToString(stateChange.current)); // Push the state as a string
-        lua_settable(L, -3); // Set "state" in the table
+        lua_pushstring(L, ARTRealtimeConnectionStateToString(stateChange.current));
+        lua_settable(L, -3); // Add "state" to the table
 
-        // Add "reason" to the table if available
         if (stateChange.reason) {
             lua_pushstring(L, "reason");
-            lua_pushstring(L, [stateChange.reason.message UTF8String]); // Push the error reason
-            lua_settable(L, -3); // Set "reason" in the table
+            lua_pushstring(L, [stateChange.reason.message UTF8String]);
+            lua_settable(L, -3); // Add "reason" if available
         }
 
-        lua_pcall(L, 1, 0, 0); // Call the listener with one argument (the table)
+        lua_pcall(L, 1, 0, 0); // Call the Lua function with one argument (the table)
     } else {
-        lua_pop(L, 1); // Pop the listener callback if it's not a function
+        lua_pop(L, 1); // Pop the invalid listener
     }
 }
 
-// initWithKey function implementation
+// initWithKey: Initialize Ably client with API key
 static int initWithKey(lua_State *L) {
     const char *apiKey = luaL_checkstring(L, 1);
 
@@ -68,7 +51,7 @@ static int initWithKey(lua_State *L) {
     int listenerRef = luaL_ref(L, LUA_REGISTRYINDEX);
 
     ARTClientOptions *options = [[ARTClientOptions alloc] initWithKey:[NSString stringWithUTF8String:apiKey]];
-    options.autoConnect = YES; // Enable auto-connect
+    options.autoConnect = YES;
 
     ARTRealtime *client = [[ARTRealtime alloc] initWithOptions:options];
     if (!client) {
@@ -85,39 +68,149 @@ static int initWithKey(lua_State *L) {
         }
     }];
 
-    lua_pushlightuserdata(L, (__bridge void *)client);
+    lua_pushboolean(L, 1); // Success
     return 1;
 }
 
-// connectionClose function implementation
+// connectionClose: Close the Ably connection
 static int connectionClose(lua_State *L) {
     if (gAblyClient) {
         [gAblyClient.connection close];
         [gAblyClient.connection on:ARTRealtimeConnectionEventClosed callback:^(ARTConnectionStateChange *stateChange) {
             NSLog(@"Ably connection explicitly closed.");
         }];
-        lua_pushboolean(L, 1); // Return true to Lua to indicate success
+        lua_pushboolean(L, 1); // Success
         return 1;
     } else {
         lua_pushnil(L);
         lua_pushstring(L, "Ably client is not initialized.");
-        return 2; // Return nil and an error message
+        return 2;
     }
+}
+
+// connectionReconnect: Reconnect the Ably connection
+static int connectionReconnect(lua_State *L) {
+    if (gAblyClient) {
+        [gAblyClient.connection connect];
+        NSLog(@"Ably connection reconnected.");
+        lua_pushboolean(L, 1); // Success
+        return 1;
+    } else {
+        lua_pushnil(L);
+        lua_pushstring(L, "Ably client is not initialized.");
+        return 2;
+    }
+}
+
+// getChannel: Retrieve an Ably channel by name
+static int getChannel(lua_State *L) {
+    const char *channelName = luaL_checkstring(L, 1);
+
+    if (!gAblyClient) {
+        lua_pushnil(L);
+        lua_pushstring(L, "Ably client not initialized. Call initWithKey first.");
+        return 2;
+    }
+
+    ARTRealtimeChannel *channel = [gAblyClient.channels get:[NSString stringWithUTF8String:channelName]];
+    if (!channel) {
+        lua_pushnil(L);
+        lua_pushstring(L, "Failed to get the Ably channel.");
+        return 2;
+    }
+
+    lua_pushlightuserdata(L, (__bridge void *)channel);
+    return 1; // Return the channel as a light userdata to Lua
+}
+
+// subscribeAll: Subscribe to all messages on a channel
+static int subscribeAll(lua_State *L) {
+    ARTRealtimeChannel *channel = (__bridge ARTRealtimeChannel *)lua_touserdata(L, 1);
+    luaL_checktype(L, 2, LUA_TFUNCTION);
+    lua_pushvalue(L, 2);
+    int listenerRef = luaL_ref(L, LUA_REGISTRYINDEX);
+
+    [channel subscribe:^(ARTMessage *message) {
+        if (message) {
+            lua_rawgeti(L, LUA_REGISTRYINDEX, listenerRef);
+            if (lua_isfunction(L, -1)) {
+                lua_newtable(L);
+
+                lua_pushstring(L, "name");
+                lua_pushstring(L, [message.name UTF8String]);
+                lua_settable(L, -3);
+
+                lua_pushstring(L, "data");
+                lua_pushstring(L, [[message.data description] UTF8String]);
+                lua_settable(L, -3);
+
+                lua_pcall(L, 1, 0, 0);
+            } else {
+                lua_pop(L, 1);
+            }
+        }
+    }];
+
+    lua_pushboolean(L, 1);
+    return 1;
+}
+
+// subscribeEvent: Subscribe to specific events on a channel
+static int subscribeEvent(lua_State *L) {
+    ARTRealtimeChannel *channel = (__bridge ARTRealtimeChannel *)lua_touserdata(L, 1);
+    const char *eventName = luaL_checkstring(L, 2);
+
+    luaL_checktype(L, 3, LUA_TFUNCTION);
+    lua_pushvalue(L, 3);
+    int listenerRef = luaL_ref(L, LUA_REGISTRYINDEX);
+
+    [channel subscribe:[NSString stringWithUTF8String:eventName] callback:^(ARTMessage *message) {
+        if (message) {
+            lua_rawgeti(L, LUA_REGISTRYINDEX, listenerRef);
+            if (lua_isfunction(L, -1)) {
+                lua_newtable(L);
+
+                lua_pushstring(L, "name");
+                lua_pushstring(L, [message.name UTF8String]);
+                lua_settable(L, -3);
+
+                lua_pushstring(L, "data");
+                lua_pushstring(L, [[message.data description] UTF8String]);
+                lua_settable(L, -3);
+
+                lua_pcall(L, 1, 0, 0);
+            } else {
+                lua_pop(L, 1);
+            }
+        }
+    }];
+
+    lua_pushboolean(L, 1);
+    return 1;
 }
 
 // Lua plugin loader
 CORONA_EXPORT int luaopen_plugin_AblySolar(lua_State *L) {
-    // Create a table to store the plugin functions
     lua_newtable(L);
 
-    // Register the initWithKey function
     lua_pushcfunction(L, initWithKey);
     lua_setfield(L, -2, "initWithKey");
 
-    // Register the connectionClose function
     lua_pushcfunction(L, connectionClose);
     lua_setfield(L, -2, "connectionClose");
 
-    return 1; // Return the table to Lua
+    lua_pushcfunction(L, connectionReconnect);
+    lua_setfield(L, -2, "connectionReconnect");
+
+    lua_pushcfunction(L, getChannel);
+    lua_setfield(L, -2, "getChannel");
+
+    lua_pushcfunction(L, subscribeAll);
+    lua_setfield(L, -2, "subscribeAll");
+
+    lua_pushcfunction(L, subscribeEvent);
+    lua_setfield(L, -2, "subscribeEvent");
+
+    return 1;
 }
 

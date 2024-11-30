@@ -8,15 +8,80 @@ local function delegateListener(event)
 end
 Runtime:addEventListener("delegate", delegateListener)
 
+local apiKey = "your-ably-api-key"
+
+-----------
+
 local ably = require("plugin.AblySolar")
 
--- Initialize the Ably connection
-local client = ably.initWithKey("your-ably-api-key", function(event)
+-- Registry to keep track of subscriptions
+local subscriptionRegistry = {}
+
+-- Initialize the Ably client
+local success = ably.initWithKey(apiKey, function(event)
     print("Connection state changed:", event.state)
 end)
 
--- Flag to prevent lifecycle actions during startup
-local isAppInitialized = false
+if not success then
+    print("Failed to initialize Ably client")
+end
+
+-- Helper function to add a subscription to the registry
+local function addSubscription(channelName, eventName, listener)
+    subscriptionRegistry[channelName] = subscriptionRegistry[channelName] or {}
+    if eventName then
+        subscriptionRegistry[channelName][eventName] = listener
+    else
+        subscriptionRegistry[channelName].all = listener
+    end
+end
+
+-- Helper function to restore subscriptions
+local function restoreSubscriptions()
+    for channelName, subscriptions in pairs(subscriptionRegistry) do
+        -- Get the channel again
+        local newChannel = ably.getChannel(channelName)
+        if not newChannel then
+            print("Failed to reacquire channel:", channelName)
+        else
+            -- Restore "all" subscription
+            if subscriptions.all then
+                ably.subscribeAll(newChannel, subscriptions.all)
+                print("Restored subscription to all messages for channel:", channelName)
+            end
+
+            -- Restore specific event subscriptions
+            for eventName, listener in pairs(subscriptions) do
+                if eventName ~= "all" then
+                    ably.subscribeEvent(newChannel, eventName, listener)
+                    print("Restored subscription to event:", eventName, "for channel:", channelName)
+                end
+            end
+        end
+    end
+end
+
+-- Get a channel
+local channelName = "testChannel"
+local channel = ably.getChannel(channelName)
+
+-- Subscribe to all messages on the channel
+ably.subscribeAll(channel, function(event)
+    print("Received message:", event.name, event.data)
+end)
+addSubscription(channelName, nil, function(event)
+    print("Received message:", event.name, event.data)
+end)
+
+-- Subscribe to a specific event on the channel
+ably.subscribeEvent(channel, "customEvent", function(event)
+    print("Received event:", event.name, event.data)
+end)
+addSubscription(channelName, "customEvent", function(event)
+    print("Received event:", event.name, event.data)
+end)
+
+------------
 
 -- Function to close the Ably connection
 local function closeAblyConnection()
@@ -43,17 +108,16 @@ local function reconnectAbly()
 
     print("Reconnecting Ably...")
     
-    -- Always call initWithKey to reconnect
     local success, errorMessage = pcall(function()
-        client = ably.initWithKey("your-ably-api-key", function(event)
-            print("Connection state changed:", event.state)
-        end)
+        -- Call the plugin's reconnection function
+        ably.connectionReconnect()
     end)
     
     if not success then
         print("Error reconnecting Ably:", errorMessage)
     else
         print("Reconnection successful!")
+        restoreSubscriptions() -- Restore subscriptions after reconnection
     end
 end
 
