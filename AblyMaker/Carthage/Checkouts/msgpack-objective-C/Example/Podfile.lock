@@ -1,0 +1,16 @@
+PODS:
+  - msgpack (0.3.1)
+
+DEPENDENCIES:
+  - msgpack (from `../`)
+
+EXTERNAL SOURCES:
+  msgpack:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  msgpack: 104f3438c866c0fce02e9c599dccdfb1c8703d10
+
+PODFILE CHECKSUM: 7fd1598e32f7c6d13ad24055d61e09a14cc7dd25
+
+COCOAPODS: 1.7.1

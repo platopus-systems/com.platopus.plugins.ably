@@ -1,0 +1,9 @@
+platform :ios, "9.0"
+
+target 'msgpack'  do
+  pod 'msgpack', :path => "../"
+end
+
+target 'Tests' do
+  pod 'msgpack', :path => "../"
+end
