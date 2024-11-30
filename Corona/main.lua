@@ -1,5 +1,3 @@
-local library = require "plugin.AblySolar"
-
 -- This event is dispatched to the global Runtime object
 -- by `didLoadMain:` in MyCoronaDelegate.mm
 local function delegateListener( event )
@@ -10,15 +8,17 @@ local function delegateListener( event )
 end
 Runtime:addEventListener( "delegate", delegateListener )
 
--- This event is dispatched to the following Lua function
--- by PluginLibrary::show() in PluginLibrary.mm
-local function listener( event )
-	print( "Received event from Library plugin (" .. event.name .. "): ", event.message )
-end
 
-library.init( listener )
 
-timer.performWithDelay( 1000, function()
-	library.show( "corona" )
-end )
+local AblySolar = require("plugin.AblySolar")
 
+-- Initialize the Ably client
+local client = AblySolar.initWithKey("your-ably-api-key", function(event)
+    if event.state == "Connected" then
+        print("Ably Connected")
+    elseif event.state == "Failed" then
+        print("Ably Connection Failed - Reason: " .. (event.reason or "unknown"))
+    else
+        print("Ably State changed: " .. event.state)
+    end
+end)

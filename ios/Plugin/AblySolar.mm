@@ -1,197 +1,106 @@
-//
-//  AblySolar.mm
-//  TemplateApp
-//
-//  Copyright (c) 2024 Ably / Yousaf Shah. All rights reserved.
-//
-
+#import <Foundation/Foundation.h>
 #import "AblySolar.h"
+#import <Ably/Ably.h>
+#import <CoronaLua.h>
+#import <CoronaMacros.h>
 
-#include <CoronaRuntime.h>
-#import <UIKit/UIKit.h>
-#import "Ably/Ably.h"
+// Keep a global reference to the Ably client to avoid it being deallocated
+static ARTRealtime *gAblyClient = nil;
 
-// ----------------------------------------------------------------------------
+// Function prototypes
+static void onConnectionStateChange(ARTConnectionStateChange *stateChange, lua_State *L, int listenerRef);
+static int initWithKey(lua_State *L);
+static const char *ARTRealtimeConnectionStateToString(ARTRealtimeConnectionState state);
 
-class AblySolar
-{
-	public:
-		typedef AblySolar Self;
-
-	public:
-		static const char kName[];
-		static const char kEvent[];
-
-	protected:
-		AblySolar();
-
-	public:
-		bool Initialize( CoronaLuaRef listener );
-
-	public:
-		CoronaLuaRef GetListener() const { return fListener; }
-
-	public:
-		static int Open( lua_State *L );
-
-	protected:
-		static int Finalizer( lua_State *L );
-
-	public:
-		static Self *ToLibrary( lua_State *L );
-
-	public:
-		static int init( lua_State *L );
-		static int show( lua_State *L );
-
-	private:
-		CoronaLuaRef fListener;
-};
-
-// ----------------------------------------------------------------------------
-
-// This corresponds to the name of the library, e.g. [Lua] require "plugin.library"
-const char AblySolar::kName[] = "plugin.AblySolar";
-
-// This corresponds to the event name, e.g. [Lua] event.name
-const char AblySolar::kEvent[] = "AblySolarEvent";
-
-AblySolar::AblySolar()
-:	fListener( NULL )
-{
+// Helper function to convert ARTRealtimeConnectionState to string
+static const char *ARTRealtimeConnectionStateToString(ARTRealtimeConnectionState state) {
+    switch (state) {
+        case ARTRealtimeConnecting:
+            return "Connecting";
+        case ARTRealtimeConnected:
+            return "Connected";
+        case ARTRealtimeDisconnected:
+            return "Disconnected";
+        case ARTRealtimeSuspended:
+            return "Suspended";
+        case ARTRealtimeClosed:
+            return "Closed";
+        case ARTRealtimeFailed:
+            return "Failed";
+        default:
+            return "Unknown";
+    }
 }
 
-bool
-AblySolar::Initialize( CoronaLuaRef listener )
-{
-	// Can only initialize listener once
-	bool result = ( NULL == fListener );
+// Listener function that will be triggered on connection state changes
+static void onConnectionStateChange(ARTConnectionStateChange *stateChange, lua_State *L, int listenerRef) {
+    lua_rawgeti(L, LUA_REGISTRYINDEX, listenerRef); // Push the listener callback onto the stack
 
-	if ( result )
-	{
-		fListener = listener;
+    if (lua_isfunction(L, -1)) {
+        // Create a Lua table to pass the state and reason
+        lua_newtable(L);
 
+        // Add "state" to the table
+        lua_pushstring(L, "state");
+        lua_pushstring(L, ARTRealtimeConnectionStateToString(stateChange.current)); // Push the state as a string
+        lua_settable(L, -3); // Set "state" in the table
 
-	}
+        // Add "reason" to the table if available
+        if (stateChange.reason) {
+            lua_pushstring(L, "reason");
+            lua_pushstring(L, [stateChange.reason.message UTF8String]); // Push the error reason
+            lua_settable(L, -3); // Set "reason" in the table
+        }
 
-	return result;
+        lua_pcall(L, 1, 0, 0); // Call the listener with one argument (the table)
+    } else {
+        lua_pop(L, 1); // Pop the listener callback if it's not a function
+    }
 }
 
-int
-AblySolar::Open( lua_State *L )
-{
-	// Register __gc callback
-	const char kMetatableName[] = __FILE__; // Globally unique string to prevent collision
-	CoronaLuaInitializeGCMetatable( L, kMetatableName, Finalizer );
+// initWithKey function implementation
+static int initWithKey(lua_State *L) {
+    // Get the 'key' parameter from Lua (at stack index 1)
+    const char *apiKey = luaL_checkstring(L, 1);
 
-	// Functions in library
-	const luaL_Reg kVTable[] =
-	{
-		{ "init", init },
-		{ "show", show },
+    // Get the listener function from Lua (at stack index 2)
+    luaL_checktype(L, 2, LUA_TFUNCTION); // Ensure the second argument is a function
 
-		{ NULL, NULL }
-	};
+    // Store the Lua listener reference in the registry
+    lua_pushvalue(L, 2);
+    int listenerRef = luaL_ref(L, LUA_REGISTRYINDEX);
 
-	// Set library as upvalue for each library function
-	Self *library = new Self;
-	CoronaLuaPushUserdata( L, library, kMetatableName );
+    // Create the Ably client
+    ARTRealtime *client = [[ARTRealtime alloc] initWithKey:[NSString stringWithUTF8String:apiKey]];
 
-	luaL_openlib( L, kName, kVTable, 1 ); // leave "library" on top of stack
+    if (!client) {
+        lua_pushnil(L);
+        lua_pushstring(L, "Failed to initialize Ably client.");
+        return 2; // Return nil and an error message
+    }
 
-	return 1;
-}
+    gAblyClient = client; // Store globally to retain it
 
-int
-AblySolar::Finalizer( lua_State *L )
-{
-	Self *library = (Self *)CoronaLuaToUserdata( L, 1 );
-
-	CoronaLuaDeleteRef( L, library->GetListener() );
-
-	delete library;
-
-	return 0;
-}
-
-AblySolar *
-AblySolar::ToLibrary( lua_State *L )
-{
-	// library is pushed as part of the closure
-	Self *library = (Self *)CoronaLuaToUserdata( L, lua_upvalueindex( 1 ) );
-	return library;
-}
-
-// [Lua] library.init( listener )
-int
-AblySolar::init( lua_State *L )
-{
-	int listenerIndex = 1;
-
-	if ( CoronaLuaIsListener( L, listenerIndex, kEvent ) )
-	{
-		Self *library = ToLibrary( L );
-
-		CoronaLuaRef listener = CoronaLuaNewRef( L, listenerIndex );
-		library->Initialize( listener );
-	}
-
-	return 0;
-}
-
-// [Lua] library.show( word )
-int
-AblySolar::show( lua_State *L )
-{
-	NSString *message = @"Error: Could not display UIReferenceLibraryViewController. This feature requires iOS 5 or later.";
-    
-    
-    
-    ARTRealtime *client = [[ARTRealtime alloc] initWithKey:@"your-ably-api-key"];
-    [client.connection on:ARTRealtimeConnectionEventConnected callback:^(ARTConnectionStateChange *stateChange) {
-        NSLog(@"Connected to Ably!");
+    // Set the connection state change callback
+    [client.connection on:^(ARTConnectionStateChange *stateChange) {
+        if (stateChange) {
+            onConnectionStateChange(stateChange, L, listenerRef);
+        }
     }];
-    ARTRealtimeChannel *channel = [client.channels get:@"test"];
-    [channel subscribe:^(ARTMessage *message) {
-        NSLog(@"%@", message.name);
-        NSLog(@"%@", message.data);
-    }];
-	
-	if ( [UIReferenceLibraryViewController class] )
-	{
-		id<CoronaRuntime> runtime = (id<CoronaRuntime>)CoronaLuaGetContext( L );
 
-		const char kDefaultWord[] = "corona";
-		const char *word = lua_tostring( L, 1 );
-		if ( ! word )
-		{
-			word = kDefaultWord;
-		}
-
-		UIReferenceLibraryViewController *controller = [[[UIReferenceLibraryViewController alloc] initWithTerm:[NSString stringWithUTF8String:word]] autorelease];
-
-		// Present the controller modally.
-		[runtime.appViewController presentViewController:controller animated:YES completion:nil];
-
-		message = @"Success. Displaying UIReferenceLibraryViewController for 'corona'.";
-	}
-
-	Self *library = ToLibrary( L );
-
-	// Create event and add message to it
-	CoronaLuaNewEvent( L, kEvent );
-	lua_pushstring( L, [message UTF8String] );
-	lua_setfield( L, -2, "message" );
-
-	// Dispatch event to library's listener
-	CoronaLuaDispatchEvent( L, library->GetListener(), 0 );
-
-	return 0;
+    // Return the client reference to Lua (optional, for chaining further calls)
+    lua_pushlightuserdata(L, (__bridge void *)client);
+    return 1; // Return the client object
 }
 
-// ----------------------------------------------------------------------------
+// Lua plugin loader
+CORONA_EXPORT int luaopen_plugin_AblySolar(lua_State *L) {
+    // Create a table to store the plugin functions
+    lua_newtable(L);
 
-CORONA_EXPORT int luaopen_plugin_AblySolar( lua_State *L )
-{
-	return AblySolar::Open( L );
+    // Register the initWithKey function
+    lua_pushcfunction(L, initWithKey);
+    lua_setfield(L, -2, "initWithKey");
+
+    return 1; // Return the table to Lua
 }
