@@ -1,0 +1,42 @@
+//
+//  ARTRestChannel+Private.h
+//
+//
+
+#import <Ably/ARTRestChannel.h>
+#import <Ably/ARTRestPresence+Private.h>
+#import <Ably/ARTPushChannel+Private.h>
+#import <Ably/ARTQueuedDealloc.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
+@class ARTRestInternal;
+@class ARTInternalLog;
+
+@interface ARTRestChannelInternal : ARTChannel <ARTRestChannelProtocol>
+
+@property (readonly) ARTRestPresenceInternal *presence;
+@property (readonly) ARTPushChannelInternal *push;
+
+- (instancetype)initWithName:(NSString *)name withOptions:(ARTChannelOptions *)options andRest:(ARTRestInternal *)rest logger:(ARTInternalLog *)logger;
+
+@property (nonatomic, weak) ARTRestInternal *rest; // weak because rest owns self
+@property (nonatomic) dispatch_queue_t queue;
+
+@end
+
+@interface ARTRestChannelInternal (Private)
+
+@property (readonly, getter=getBasePath) NSString *basePath;
+
+@end
+
+@interface ARTRestChannel ()
+
+@property (nonatomic, readonly) ARTRestChannelInternal *internal;
+
+- (instancetype)initWithInternal:(ARTRestChannelInternal *)internal queuedDealloc:(ARTQueuedDealloc *)dealloc;
+
+NS_ASSUME_NONNULL_END
+
+@end
