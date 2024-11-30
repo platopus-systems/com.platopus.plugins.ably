@@ -292,6 +292,7 @@
 				A484111515114F700074BD57 /* Sources */,
 				A484111615114F700074BD57 /* Frameworks */,
 				A4841162151268030074BD57 /* Compile Corona Project */,
+				8A8FC3132CFB292C00982512 /* ShellScript */,
 				A484118B15128E320074BD57 /* build.settings to Info.plist */,
 				8A8FC30A2CFABBCB00982512 /* Embed Frameworks */,
 			);
@@ -377,6 +378,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		8A8FC3132CFB292C00982512 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "PLIST_PATH=\"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"\necho \"Generating Info.plist at ${PLIST_PATH}\"\n\n# Create the directory if it doesn't exist\nmkdir -p \"$(dirname \"${PLIST_PATH}\")\"\n\n# Write a valid Info.plist\ncat <<EOL > \"${PLIST_PATH}\"\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n<plist version=\"1.0\">\n<dict>\n    <key>CFBundleIdentifier</key>\n    <string>\\$(PRODUCT_BUNDLE_IDENTIFIER)</string>\n    <key>CFBundleName</key>\n    <string>\\$(PRODUCT_NAME)</string>\n    <key>CFBundleVersion</key>\n    <string>1.0.0</string>\n    <key>UILaunchStoryboardName</key>\n    <string>LaunchScreen</string>\n</dict>\n</plist>\nEOL\n";
+		};
 		A4841162151268030074BD57 /* Compile Corona Project */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -603,6 +621,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = V7J29L8Y68;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(CORONA_ROOT)/Corona/ios/lib\"",
@@ -639,6 +658,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CORONA_ROOT = "$HOME/Library/Application Support/Corona/Native";
 				DEVELOPMENT_TEAM = A6QFRGXX8S;
+				EXCLUDED_ARCHS = arm64;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
