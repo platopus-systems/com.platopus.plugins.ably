@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -22,9 +22,15 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		8A8FC31C2CFB747E00982512 /* AblySolar.h in Headers */ = {isa = PBXBuildFile; fileRef = 8A8FC31A2CFB747E00982512 /* AblySolar.h */; };
+		8A8FC31D2CFB747E00982512 /* AblySolar.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A8FC31B2CFB747E00982512 /* AblySolar.mm */; };
+		8A8FC3352CFB773D00982512 /* AblyDeltaCodec.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A8FC3322CFB773D00982512 /* AblyDeltaCodec.xcframework */; };
+		8A8FC3362CFB773D00982512 /* AblyDeltaCodec.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A8FC3322CFB773D00982512 /* AblyDeltaCodec.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8A8FC3372CFB773D00982512 /* msgpack.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A8FC3332CFB773D00982512 /* msgpack.xcframework */; };
+		8A8FC3382CFB773D00982512 /* msgpack.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A8FC3332CFB773D00982512 /* msgpack.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8A8FC3392CFB773D00982512 /* Ably.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A8FC3342CFB773D00982512 /* Ably.xcframework */; };
+		8A8FC33A2CFB773D00982512 /* Ably.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A8FC3342CFB773D00982512 /* Ably.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A49EC18A1BD779560093F529 /* Corona_plugin_library.h in Headers */ = {isa = PBXBuildFile; fileRef = A49EC1891BD779560093F529 /* Corona_plugin_library.h */; };
-		A49EC1991BD779C10093F529 /* PluginLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = A49EC1971BD779C10093F529 /* PluginLibrary.h */; };
-		A49EC19A1BD779C10093F529 /* PluginLibrary.mm in Sources */ = {isa = PBXBuildFile; fileRef = A49EC1981BD779C10093F529 /* PluginLibrary.mm */; };
 		F57A43D926BBCB6200010DB3 /* CoronaCards.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = F57A43D426BBCB0100010DB3 /* CoronaCards.xcframework */; };
 		F59D379C1F60896000400426 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F59D379B1F60895A00400426 /* UIKit.framework */; };
 /* End PBXBuildFile section */
@@ -55,13 +61,32 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		8A8FC3272CFB74DD00982512 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8A8FC3382CFB773D00982512 /* msgpack.xcframework in Embed Frameworks */,
+				8A8FC3362CFB773D00982512 /* AblyDeltaCodec.xcframework in Embed Frameworks */,
+				8A8FC33A2CFB773D00982512 /* Ably.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		8A8FC31A2CFB747E00982512 /* AblySolar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AblySolar.h; sourceTree = "<group>"; };
+		8A8FC31B2CFB747E00982512 /* AblySolar.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AblySolar.mm; sourceTree = "<group>"; };
+		8A8FC3322CFB773D00982512 /* AblyDeltaCodec.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AblyDeltaCodec.xcframework; path = Plugin/EmbeddedFrameworks/AblyDeltaCodec.xcframework; sourceTree = "<group>"; };
+		8A8FC3332CFB773D00982512 /* msgpack.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = msgpack.xcframework; path = Plugin/EmbeddedFrameworks/msgpack.xcframework; sourceTree = "<group>"; };
+		8A8FC3342CFB773D00982512 /* Ably.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Ably.xcframework; path = Plugin/EmbeddedFrameworks/Ably.xcframework; sourceTree = "<group>"; };
 		A49EC1861BD779560093F529 /* Corona_plugin_library.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Corona_plugin_library.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A49EC1891BD779560093F529 /* Corona_plugin_library.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Corona_plugin_library.h; path = Plugin/Corona_plugin_library.h; sourceTree = "<group>"; };
 		A49EC18B1BD779560093F529 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Plugin/Info.plist; sourceTree = "<group>"; };
-		A49EC1971BD779C10093F529 /* PluginLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PluginLibrary.h; path = Plugin/PluginLibrary.h; sourceTree = "<group>"; };
-		A49EC1981BD779C10093F529 /* PluginLibrary.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = PluginLibrary.mm; path = Plugin/PluginLibrary.mm; sourceTree = "<group>"; };
-		F57A43D426BBCB0100010DB3 /* CoronaCards.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CoronaCards.xcframework; path = "$HOME/Library/Application Support/Corona/Native/Corona/tvos/frameworks/CoronaCards.xcframework"; sourceTree = "<absolute>"; };
+		F57A43D426BBCB0100010DB3 /* CoronaCards.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CoronaCards.xcframework; path = "/Applications/Corona-3711/Native/Corona/tvos/frameworks/CoronaCards.xcframework"; sourceTree = "<absolute>"; };
 		F5815ABF1EE5CC7B0027695F /* CoronaNative.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = CoronaNative.xcconfig; sourceTree = "<group>"; };
 		F59D379B1F60895A00400426 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -71,8 +96,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A8FC3372CFB773D00982512 /* msgpack.xcframework in Frameworks */,
+				8A8FC3352CFB773D00982512 /* AblyDeltaCodec.xcframework in Frameworks */,
 				F59D379C1F60896000400426 /* UIKit.framework in Frameworks */,
 				F57A43D926BBCB6200010DB3 /* CoronaCards.xcframework in Frameworks */,
+				8A8FC3392CFB773D00982512 /* Ably.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,8 +111,8 @@
 			isa = PBXGroup;
 			children = (
 				A49EC1891BD779560093F529 /* Corona_plugin_library.h */,
-				A49EC1971BD779C10093F529 /* PluginLibrary.h */,
-				A49EC1981BD779C10093F529 /* PluginLibrary.mm */,
+				8A8FC31A2CFB747E00982512 /* AblySolar.h */,
+				8A8FC31B2CFB747E00982512 /* AblySolar.mm */,
 				A49EC18B1BD779560093F529 /* Info.plist */,
 			);
 			name = Plugin;
@@ -120,6 +148,9 @@
 		F59D379A1F60895A00400426 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8A8FC3342CFB773D00982512 /* Ably.xcframework */,
+				8A8FC3322CFB773D00982512 /* AblyDeltaCodec.xcframework */,
+				8A8FC3332CFB773D00982512 /* msgpack.xcframework */,
 				F59D379B1F60895A00400426 /* UIKit.framework */,
 			);
 			name = Frameworks;
@@ -133,7 +164,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A49EC18A1BD779560093F529 /* Corona_plugin_library.h in Headers */,
-				A49EC1991BD779C10093F529 /* PluginLibrary.h in Headers */,
+				8A8FC31C2CFB747E00982512 /* AblySolar.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,6 +180,7 @@
 				A49EC1821BD779560093F529 /* Frameworks */,
 				A49EC1831BD779560093F529 /* Headers */,
 				A49EC1841BD779560093F529 /* Resources */,
+				8A8FC3272CFB74DD00982512 /* Embed Frameworks */,
 			);
 			buildRules = (
 				A40A8FE21BD97297001D2038 /* PBXBuildRule */,
@@ -243,7 +275,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A49EC19A1BD779C10093F529 /* PluginLibrary.mm in Sources */,
+				8A8FC31D2CFB747E00982512 /* AblySolar.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

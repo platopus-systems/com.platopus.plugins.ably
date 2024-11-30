@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -66,7 +66,7 @@
 		A49EC1581BD76ECE0093F529 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A49EC1911BD779870093F529 /* Plugin.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Plugin.xcodeproj; sourceTree = "<group>"; };
 		A49EC1AE1BD77C890093F529 /* main.lua */ = {isa = PBXFileReference; lastKnownFileType = text; name = main.lua; path = ../Corona/main.lua; sourceTree = "<group>"; };
-		F57A43D526BBCB2200010DB3 /* CoronaCards.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CoronaCards.xcframework; path = "$HOME/Library/Application Support/Corona/Native/Corona/tvos/frameworks/CoronaCards.xcframework"; sourceTree = "<absolute>"; };
+		F57A43D526BBCB2200010DB3 /* CoronaCards.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CoronaCards.xcframework; path = "/Applications/Corona-3711/Native/Corona/tvos/frameworks/CoronaCards.xcframework"; sourceTree = "<absolute>"; };
 		F5815ABD1EE5CBF50027695F /* CoronaNative.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = CoronaNative.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
