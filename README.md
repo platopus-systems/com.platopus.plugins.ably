@@ -13,6 +13,8 @@ The **AblySolar** plugin provides real-time messaging capabilities powered by th
 - **Connection Management:** Reconnect, close, and monitor connection state changes.
 - **Event Subscriptions:** Listen to all events or specific events on a channel.
 
+- **Multi Platform:** Works on iOS, tvOS and Mac Simulator.
+
 ---
 
 ## Installation
