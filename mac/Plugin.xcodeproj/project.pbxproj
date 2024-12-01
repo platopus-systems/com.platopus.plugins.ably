@@ -7,9 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A445A93B16ADFC8B00A9A764 /* SimulatorPluginLibrary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A445A93916ADFC8B00A9A764 /* SimulatorPluginLibrary.cpp */; };
+		8A972E142CFBE718002EC0FE /* Ably.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A972E132CFBE718002EC0FE /* Ably.framework */; };
+		8A972E152CFBE718002EC0FE /* Ably.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A972E132CFBE718002EC0FE /* Ably.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8A972E172CFBE72F002EC0FE /* AblyDeltaCodec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A972E162CFBE72F002EC0FE /* AblyDeltaCodec.framework */; };
+		8A972E182CFBE72F002EC0FE /* AblyDeltaCodec.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A972E162CFBE72F002EC0FE /* AblyDeltaCodec.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8A972E1A2CFBE746002EC0FE /* msgpack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A972E192CFBE746002EC0FE /* msgpack.framework */; };
+		8A972E1B2CFBE746002EC0FE /* msgpack.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A972E192CFBE746002EC0FE /* msgpack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8AD469B72CFBD06A00428EB9 /* SimulatorPluginLibrary.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AD469B62CFBD06A00428EB9 /* SimulatorPluginLibrary.mm */; };
 		A445A93C16ADFC8B00A9A764 /* SimulatorPluginLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = A445A93A16ADFC8B00A9A764 /* SimulatorPluginLibrary.h */; };
-		A445A93D16ADFDCA00A9A764 /* simulator_plugin_library.lua in Sources */ = {isa = PBXBuildFile; fileRef = A445A93816ADFC8B00A9A764 /* simulator_plugin_library.lua */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -18,6 +23,8 @@
 			compilerSpec = com.apple.compilers.proxy.script;
 			filePatterns = "*.lua";
 			fileType = pattern.proxy;
+			inputFiles = (
+			);
 			isEditable = 1;
 			outputFiles = (
 				"$TARGET_TEMP_DIR/$(INPUT_FILE_BASE).c",
@@ -26,12 +33,33 @@
 		};
 /* End PBXBuildRule section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		8AD469C02CFBD39500428EB9 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = "";
+			dstSubfolderSpec = 0;
+			files = (
+				8A972E182CFBE72F002EC0FE /* AblyDeltaCodec.framework in Embed Frameworks */,
+				8A972E1B2CFBE746002EC0FE /* msgpack.framework in Embed Frameworks */,
+				8A972E152CFBE718002EC0FE /* Ably.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		8A972E132CFBE718002EC0FE /* Ably.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ably.framework; path = "Ably.xcframework/macos-arm64_x86_64/Ably.framework"; sourceTree = "<group>"; };
+		8A972E162CFBE72F002EC0FE /* AblyDeltaCodec.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AblyDeltaCodec.framework; path = "AblyDeltaCodec.xcframework/macos-arm64_x86_64/AblyDeltaCodec.framework"; sourceTree = "<group>"; };
+		8A972E192CFBE746002EC0FE /* msgpack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = msgpack.framework; path = "msgpack.xcframework/macos-arm64_x86_64/msgpack.framework"; sourceTree = "<group>"; };
+		8AD469B62CFBD06A00428EB9 /* SimulatorPluginLibrary.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = SimulatorPluginLibrary.mm; path = ../shared/SimulatorPluginLibrary.mm; sourceTree = SOURCE_ROOT; };
+		8AD469B82CFBD37F00428EB9 /* Ably.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = Ably.xcframework; sourceTree = SOURCE_ROOT; };
+		8AD469BA2CFBD38900428EB9 /* AblyDeltaCodec.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = AblyDeltaCodec.xcframework; sourceTree = SOURCE_ROOT; };
+		8AD469BC2CFBD39000428EB9 /* msgpack.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = msgpack.xcframework; sourceTree = SOURCE_ROOT; };
 		A4430897164C70D800B9117B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		A445A93816ADFC8B00A9A764 /* simulator_plugin_library.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = simulator_plugin_library.lua; path = ../shared/simulator_plugin_library.lua; sourceTree = "<group>"; };
-		A445A93916ADFC8B00A9A764 /* SimulatorPluginLibrary.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SimulatorPluginLibrary.cpp; path = ../shared/SimulatorPluginLibrary.cpp; sourceTree = "<group>"; };
 		A445A93A16ADFC8B00A9A764 /* SimulatorPluginLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimulatorPluginLibrary.h; path = ../shared/SimulatorPluginLibrary.h; sourceTree = "<group>"; };
-		A49186401641DDB800A39286 /* plugin_library.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = plugin_library.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		A49186401641DDB800A39286 /* plugin_AblySolar.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = plugin_AblySolar.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5815AB71EE5C6690027695F /* CoronaNative.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = CoronaNative.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -40,6 +68,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A972E172CFBE72F002EC0FE /* AblyDeltaCodec.framework in Frameworks */,
+				8A972E1A2CFBE746002EC0FE /* msgpack.framework in Frameworks */,
+				8A972E142CFBE718002EC0FE /* Ably.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -49,8 +80,7 @@
 		A4151F3316879B8200B2B43A /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				A445A93816ADFC8B00A9A764 /* simulator_plugin_library.lua */,
-				A445A93916ADFC8B00A9A764 /* SimulatorPluginLibrary.cpp */,
+				8AD469B62CFBD06A00428EB9 /* SimulatorPluginLibrary.mm */,
 				A445A93A16ADFC8B00A9A764 /* SimulatorPluginLibrary.h */,
 			);
 			name = Shared;
@@ -69,7 +99,7 @@
 		A482DA8515F9B7E70084DC42 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A49186401641DDB800A39286 /* plugin_library.dylib */,
+				A49186401641DDB800A39286 /* plugin_AblySolar.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -77,7 +107,13 @@
 		A482DA8615F9B7E70084DC42 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8A972E192CFBE746002EC0FE /* msgpack.framework */,
+				8A972E162CFBE72F002EC0FE /* AblyDeltaCodec.framework */,
+				8A972E132CFBE718002EC0FE /* Ably.framework */,
 				A4430897164C70D800B9117B /* Foundation.framework */,
+				8AD469B82CFBD37F00428EB9 /* Ably.xcframework */,
+				8AD469BA2CFBD38900428EB9 /* AblyDeltaCodec.xcframework */,
+				8AD469BC2CFBD39000428EB9 /* msgpack.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -104,24 +140,26 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		A49186331641DDB800A39286 /* plugin_library */ = {
+		A49186331641DDB800A39286 /* plugin_AblySolar */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A491863D1641DDB800A39286 /* Build configuration list for PBXNativeTarget "plugin_library" */;
+			buildConfigurationList = A491863D1641DDB800A39286 /* Build configuration list for PBXNativeTarget "plugin_AblySolar" */;
 			buildPhases = (
 				C22F67901EE9FA0A009D6E9D /* Corona Native */,
 				A49186341641DDB800A39286 /* Sources */,
 				A49186381641DDB800A39286 /* Frameworks */,
 				A491863A1641DDB800A39286 /* Headers */,
 				A445A9BA16AE072100A9A764 /* Copy to Simulator's Plugin Directory */,
+				8AD469C02CFBD39500428EB9 /* Embed Frameworks */,
+				8AD469C62CFBD6B900428EB9 /* ShellScript */,
 			);
 			buildRules = (
 				A491863C1641DDB800A39286 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
-			name = plugin_library;
+			name = plugin_AblySolar;
 			productName = ads;
-			productReference = A49186401641DDB800A39286 /* plugin_library.dylib */;
+			productReference = A49186401641DDB800A39286 /* plugin_AblySolar.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 /* End PBXNativeTarget section */
@@ -137,6 +175,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = A482DA7815F9B7E70084DC42;
@@ -144,12 +183,29 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A49186331641DDB800A39286 /* plugin_library */,
+				A49186331641DDB800A39286 /* plugin_AblySolar */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		8AD469C62CFBD6B900428EB9 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Set the code signing identity from your Keychain\nCODE_SIGN_IDENTITY=\"Apple Distribution: Platopus Systems Limited (V7J29L8Y68)\"\n\n# The path to the .dylib output by Xcode\nDYLIB_PATH=\"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\"\n\n# Perform code signing\ncodesign --force --deep --sign \"$CODE_SIGN_IDENTITY\" \"$DYLIB_PATH\"\n";
+		};
 		A445A9BA16AE072100A9A764 /* Copy to Simulator's Plugin Directory */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -162,7 +218,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#\n# Checks exit value for error\n# \ncheckError() {\n    if [ $? -ne 0 ]\n    then\n        echo \"Exiting due to errors (above)\"\n        exit -1\n    fi\n}\n\nPLUGINS_DIR=\"${HOME}/Library/Application Support/Corona/Simulator/Plugins\"\n\nmkdir -p \"$PLUGINS_DIR\"\ncheckError\n\ncp -v $CONFIGURATION_BUILD_DIR/$FULL_PRODUCT_NAME \"$PLUGINS_DIR\"/.\ncheckError";
+			shellScript = "#\n# Checks exit value for error\n# \ncheckError() {\n    if [ $? -ne 0 ]\n    then\n        echo \"Exiting due to errors (above)\"\n        exit -1\n    fi\n}\n\nPLUGINS_DIR=\"${HOME}/Library/Application Support/Corona/Simulator/Plugins\"\n\nmkdir -p \"$PLUGINS_DIR\"\ncheckError\n\ncp -v $CONFIGURATION_BUILD_DIR/$FULL_PRODUCT_NAME \"$PLUGINS_DIR\"/.\ncheckError\n";
 			showEnvVarsInLog = 0;
 		};
 		C22F67901EE9FA0A009D6E9D /* Corona Native */ = {
@@ -187,8 +243,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A445A93D16ADFDCA00A9A764 /* simulator_plugin_library.lua in Sources */,
-				A445A93B16ADFC8B00A9A764 /* SimulatorPluginLibrary.cpp in Sources */,
+				8AD469B72CFBD06A00428EB9 /* SimulatorPluginLibrary.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,10 +323,26 @@
 		A491863E1641DDB800A39286 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Distribution: Platopus Systems Limited (V7J29L8Y68)";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Ably.xcframework/macos-arm64_x86_64",
+					"$(PROJECT_DIR)/AblyDeltaCodec.xcframework/macos-arm64_x86_64",
+					"$(PROJECT_DIR)/msgpack.xcframework/macos-arm64_x86_64",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				INSTALL_PATH = "@rpath";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -279,10 +350,25 @@
 		A491863F1641DDB800A39286 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Distribution: Platopus Systems Limited (V7J29L8Y68)";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Ably.xcframework/macos-arm64_x86_64",
+					"$(PROJECT_DIR)/AblyDeltaCodec.xcframework/macos-arm64_x86_64",
+					"$(PROJECT_DIR)/msgpack.xcframework/macos-arm64_x86_64",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				INSTALL_PATH = "@rpath";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -299,7 +385,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A491863D1641DDB800A39286 /* Build configuration list for PBXNativeTarget "plugin_library" */ = {
+		A491863D1641DDB800A39286 /* Build configuration list for PBXNativeTarget "plugin_AblySolar" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A491863E1641DDB800A39286 /* Debug */,
