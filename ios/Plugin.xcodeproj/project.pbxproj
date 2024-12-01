@@ -122,8 +122,9 @@
 				C2E70B581EE9F110006E4570 /* Corona Native */,
 				A4E253B2166D6FB300DCDC2C /* Sources */,
 				A4E253B3166D6FB300DCDC2C /* Frameworks */,
-				A4E253B4166D6FB300DCDC2C /* CopyFiles */,
 				8AB00DD02CFAB76300696123 /* Embed Frameworks */,
+				A4E253B4166D6FB300DCDC2C /* CopyFiles */,
+				8AD469B52CFBC57700428EB9 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -161,6 +162,23 @@
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		8AD469B52CFBC57700428EB9 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\n\n# Set variables\nPLUGIN_NAME=\"AblySolar\"  # Replace with your plugin's actual name\nBUILD_DIR=\"${SRCROOT}/build\"\nOUTPUT_DIR=\"/Users/yousaf/Solar2DPlugins/com.platopus/plugin.${PLUGIN_NAME}\"\nPLUGIN_DIR=\"${OUTPUT_DIR}\"\n\n# Create necessary directories for both iOS and tvOS\n# mkdir -p \"${PLUGIN_DIR}/iphone\"\n\n# Copy the .a files to the appropriate directories for iOS and tvOS\n# cp \"${BUILD_DIR}/Release-iphoneos/lib_${PLUGIN_NAME}.a\" \"${PLUGIN_DIR}/iphone/lib_${PLUGIN_NAME}.a\"\n\n\n# Create metadata.lua file for iOS\ncat <<EOL > \"${PLUGIN_DIR}/iphone/metadata.lua\"\nreturn {\n    plugin =\n    {\n        format = 'staticLibrary',\n\n        -- This is the name without the \"lib\" prefix\n        -- In this case, the static library is called \"libplugin_openudid.a\" should be \"plugin_openudid\"\n        staticLibs = { 'plugin_${PLUGIN_NAME}', },\n        frameworks = {},\n        frameworksOptional = {},\n    },\n    coronaManifest = {\n        dependencies = {\n            -- [\"shared.memoryBitmap\"] = \"com.coronalabs\",\n        },\n    },\n}\nEOL\n\n\n# Create the data.tgz file\ncd \"${OUTPUT_DIR}/iphone\"\n\n# Set the library name using the variable\nLIBRARY_NAME=\"libplugin_${PLUGIN_NAME}.a\"\n\n# Specify the files to be packaged (you can add more if needed)\nMETADATA_FILE=\"metadata.lua\"\n\n# Create the data.tgz file using the variable for the library name\ntar -czvf data.tgz \"$METADATA_FILE\" \"$LIBRARY_NAME\"\n\n# Output the final path of data.tgz\necho \"Plugin package created at: ${OUTPUT_DIR}/data.tgz\"\n";
+		};
 		C2E70B581EE9F110006E4570 /* Corona Native */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
